@@ -19,7 +19,7 @@ export default function Home() {
       <div className="absolute inset-0 bg-black/20 -z-10" />
 
       {/* Top bar */}
-      <header className="absolute top-0 inset-x-0 p-4 md:p-6 flex items-center justify-between">
+      <header className="absolute top-0 inset-x-0 p-4 md:p-6 flex items-center justify-between z-10">
         <h1 className="text-white text-2xl md:text-3xl font-semibold tracking-tight">
           Site Name
         </h1>
@@ -39,7 +39,7 @@ export default function Home() {
         </nav>
       </header>
 
-      <div className="flex justify-center items-center -z-10">
+      <div className="flex justify-center items-center">
         <SearchPanel/>
       </div>
 
