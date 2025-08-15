@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-// THIS IS THE LANDING PAGE - default route
-export default function Home() {
+// THIS IS THE HOME/MAP PAGE - route is /site
+export default function Page() {
   return (
     <div className="bg-main">
 

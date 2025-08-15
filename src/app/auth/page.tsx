@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-// THIS IS THE LANDING PAGE - default route
-export default function Home() {
+// THIS IS THE AUTH PAGE - /auth route
+export default function Page() {
   return (
     <div className="bg-main">
 
