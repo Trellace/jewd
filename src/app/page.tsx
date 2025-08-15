@@ -38,6 +38,11 @@ export default function Home() {
           </Link>
         </nav>
       </header>
+
+      <div className="flex justify-center items-center -z-10">
+        <SearchPanel/>
+      </div>
+
     </div>
   );
 }
