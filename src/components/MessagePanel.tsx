@@ -14,7 +14,25 @@ export const MessagePanel = () => {
 
   useEffect(() => {
     getUserLocation();
+    getAllMessagesDemo();
   }, []);
+
+  const getAllMessagesDemo = async () => {
+    try {
+        const response = await fetch('/api/messages', {
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json',
+            }
+        });
+
+        console.log("RESPONSE:");
+        const { messages } = await response.json()
+        console.log(messages);
+    } catch {
+
+    }
+  }
 
   const getUserLocation = () => {
     if (!navigator.geolocation) {
