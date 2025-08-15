@@ -32,3 +32,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    await connectDB();
+    
+    
+  } catch {
+
+  }
+}
