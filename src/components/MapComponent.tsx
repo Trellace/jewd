@@ -43,13 +43,29 @@ const MapComponent = ({ isPreview = false }: MapRenderProps) => {
       maxZoom: 15,
     });
 
-    //mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-    // Example: add markers for movingObjects
-    // movingObjects.forEach(obj => {
-    //   new mapboxgl.Marker().setLngLat(obj.coordinates).setPopup(
-    //     new mapboxgl.Popup({ offset: 24 }).setText(obj.name)
-    //   ).addTo(mapRef.current!);
+    // // Example Points
+    // const points: [number, number][] = [
+    //   [134.58478, -25.30149],   // Base point
+    //   [134.59012, -25.29875],   // ~0.5 km northeast
+    //   [134.57934, -25.30512],   // ~0.6 km southwest
+    // ];
+
+    // // Only add markers after map is ready
+    // map.on("load", () => {
+    //   points.forEach(([lng, lat]) => {
+    //     //add custom make maker to each maker
+    //     const el = document.createElement('div');
+    //     el.className = 'custom-map-marker';
+    //     //create new marker on map with custom maker passed in
+    //     new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+    //   });
+
+    //   // Fit map to points
+    //   const bounds = new mapboxgl.LngLatBounds();
+    //   points.forEach((point) => bounds.extend(point));
+    //   map.fitBounds(bounds, { padding: 50 });
     // });
 
     return () => {
