@@ -142,3 +142,8 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
+/* Deep space behind the canvas only (not the map layers) */
+.mapboxgl-map,
+.mapboxgl-canvas-container,
+.mapboxgl-canvas { background-color: #060814 !important; }
