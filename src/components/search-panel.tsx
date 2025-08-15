@@ -49,7 +49,7 @@ export const SearchPanel = () => {
 
     return (
         <div className="absolute inset-0 flex items-center justify-center p-4">
-            <Card className="w-full max-w-lg shadow-xl border border-gray-100 rounded-2xl backdrop-blur-sm bg-white/90">
+            <Card className="w-full max-w-1/2 shadow-xl border border-gray-100 rounded-2xl backdrop-blur-sm bg-white/90">
                 <CardContent className="p-6 flex flex-col gap-4">
                     <h2 className="text-lg font-semibold text-center text-gray-800">
                         Find Your Next Home
@@ -63,7 +63,7 @@ export const SearchPanel = () => {
                     </div>
                     <Button
                         onClick={handleSearch}
-                        className="mt-2 bg-secondary hover:bg-secondary/90 text-white rounded-lg h-11 transition-all shadow-sm hover:shadow-md"
+                        className="mt-2 bg-primary hover:bg-secondary/90 text-white rounded-lg h-11 transition-all shadow-sm hover:shadow-md"
                     >
                         Search
                     </Button>
