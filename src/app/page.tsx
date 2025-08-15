@@ -2,6 +2,9 @@
 "use client";
 
 import MapComponent from "@/components/MapComponent";
+import { SearchPanel } from "@/components/search-panel";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
