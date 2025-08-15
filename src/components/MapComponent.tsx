@@ -1,50 +1,69 @@
-'use client';
+// src/components/MapComponent.tsx
+"use client";
 
 import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 interface MovingObject {
   id: number;
   name: string;
-  coordinates: number[];
+  coordinates: [number, number]; // [lng, lat]
 }
 
 const MapComponent: React.FC = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
 
   const movingObjects: MovingObject[] = [
-    // Define your moving objects here
+    // { id: 1, name: "Example", coordinates: [144.9631, -37.8136] }, // Melbourne
   ];
 
   useEffect(() => {
-    mapboxgl.accessToken = process.env.NEXT_MAPBOX_TOKEN as string;
-
-    if (mapContainer.current) {
-      const map = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: `mapbox://styles/mapbox/light-v11`,
-        center: [-74.0060152, 40.7127281],
-        zoom: 5,
-        maxZoom: 15,    
-      });
-
-      // Add zoom controls
-      map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-      // Add your custom markers and lines here
-
-      // Clean up on unmount
-      return () => map.remove();
+    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+    if (!token) {
+      console.error("Missing NEXT_PUBLIC_MAPBOX_TOKEN in .env.local");
+      return;
     }
+    if (!mapContainer.current || mapRef.current) return; // init once
+
+    mapboxgl.accessToken = token;
+
+    mapRef.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/light-v11",
+      center: [133.7751, -25.2744], // Australia (lng, lat)
+      zoom: 3.2,
+      maxZoom: 15,
+    });
+
+    mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+    // Example: add markers for movingObjects
+    // movingObjects.forEach(obj => {
+    //   new mapboxgl.Marker().setLngLat(obj.coordinates).setPopup(
+    //     new mapboxgl.Popup({ offset: 24 }).setText(obj.name)
+    //   ).addTo(mapRef.current!);
+    // });
+
+    return () => {
+      mapRef.current?.remove();
+      mapRef.current = null;
+    };
   }, []);
 
-  return (
-    <div
-      ref={mapContainer}
-      className="w-full h-full -z-10"
-    //   style={{ position: "absolute", top: 0, bottom: 0, width: "100%" }}
-    />
-  );
+  // Friendly placeholder if token missing so the page doesn’t crash
+  if (!process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
+    return (
+      <div className="flex h-full w-full items-center justify-center bg-gray-100">
+        <p className="text-sm text-gray-600">
+          Set <code>NEXT_PUBLIC_MAPBOX_TOKEN</code> in <code>.env.local</code> and restart dev server.
+        </p>
+      </div>
+    );
+  }
+
+  return <div ref={mapContainer} className="w-full h-full -z-10" />;
 };
 
 export default MapComponent;
