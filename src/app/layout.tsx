@@ -27,6 +27,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="h-screen w-screen">
+
+        </div>
         {children}
       </body>
     </html>
