@@ -12,10 +12,10 @@ interface MovingObject {
 }
 
 interface MapRenderProps {
-    isPreview: boolean
+    isPreview?: boolean
 }
 
-const MapComponent = ({isPreview}: MapRenderProps) => {
+const MapComponent = ({isPreview = false}: MapRenderProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
 
