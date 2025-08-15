@@ -1,8 +1,8 @@
-// src/app/page.tsx
 "use client";
 
 import { Header } from "@/components/Header";
 import MapComponent from "@/components/MapComponent";
+
 import { MessagePanel } from "@/components/MessagePanel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
