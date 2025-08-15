@@ -9,43 +9,14 @@ const EMOJIS = [
 export const Header = () => {
   const [open, setOpen] = useState(false);
   const [avatar, setAvatar] = useState("😄");
-  const [locationLabel, setLocationLabel] = useState<string>("");
 
-  // Load saved avatar
   useEffect(() => {
     try {
       const saved = localStorage.getItem("avatarEmoji");
       if (saved) setAvatar(saved);
-    } catch {}
+    } catch {/* ignore */}
   }, []);
 
-  // Fetch approximate location by IP (cached per session)
-  useEffect(() => {
-    const cached = sessionStorage.getItem("geoLabel");
-    if (cached) {
-      setLocationLabel(cached);
-      return;
-    }
-    (async () => {
-      try {
-        const res = await fetch("https://ipapi.co/json/");
-        if (!res.ok) throw new Error("geo fetch failed");
-        const data: Partial<{
-          city: string; region: string; country_name: string;
-        }> = await res.json();
-        const city = data.city || data.region || "";
-        const country = data.country_name || "";
-        const label = [city, country].filter(Boolean).join(", ");
-        const finalLabel = label || "Unknown";
-        sessionStorage.setItem("geoLabel", finalLabel);
-        setLocationLabel(finalLabel);
-      } catch {
-        setLocationLabel("Unknown");
-      }
-    })();
-  }, []);
-
-  // Close with Escape
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -55,7 +26,7 @@ export const Header = () => {
 
   const selectEmoji = (e: string) => {
     setAvatar(e);
-    try { localStorage.setItem("avatarEmoji", e); } catch {}
+    try { localStorage.setItem("avatarEmoji", e); } catch {/* ignore */}
     setOpen(false);
   };
 
@@ -64,26 +35,14 @@ export const Header = () => {
       <div className="absolute top-0 p-4 justify-between items-center w-full z-10 flex flex-row">
         <h1 className="text-xl font-semibold text-neutral-600">99999 Messages</h1>
 
-        <div className="flex items-center gap-3">
-          <div
-            className="hidden sm:flex items-center max-w-[50vw] rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
-            aria-live="polite"
-          >
-            <span className="mr-1">📍</span>
-            <span className="truncate">
-              {locationLabel ? locationLabel : "Locating..."}
-            </span>
-          </div>
-
-          <button
-            type="button"
-            aria-label="Open avatar picker"
-            onClick={() => setOpen(true)}
-            className="h-10 w-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center shadow ring-1 ring-black/10 hover:scale-105 transition"
-          >
-            <span className="text-2xl leading-none">{avatar}</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          aria-label="Open avatar picker"
+          onClick={() => setOpen(true)}
+          className="h-10 w-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center shadow ring-1 ring-black/10 hover:scale-105 transition"
+        >
+          <span className="text-2xl leading-none">{avatar}</span>
+        </button>
       </div>
 
       {open && (
