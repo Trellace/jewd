@@ -42,11 +42,24 @@ export const MessagePanel = () => {
     );
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (message == '' || message == null || message.length > 50 || location == null) return;
 
-    console.log("Message:", message);
-    console.log("Location:", location);
+    try {
+        const data = {message: message, location: location}
+
+       const response = await fetch('/api/messages', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        console.log(response.json);
+    } catch {
+        console.error("Error sending message");
+    }
     setMessage(""); // clear input after sending
   };
 
