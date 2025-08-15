@@ -50,6 +50,42 @@ const MapComponent = () => {
     map.on("load", applySpace);
     map.on("style.load", applySpace);
 
+    // const points: [number, number][] = getAllMessages();
+
+    // Only add markers after map is ready
+    map.on("load", async () => {
+      const points: [number, number, string][] = await getAllMessages();
+      //console.log(points);
+      points.forEach(([lat, lng, message]) => {
+        // Create custom marker element
+        const el = document.createElement('div');
+        el.className = 'custom-map-marker inline-block transform origin-bottom-center';
+
+        // Add inner HTML for popup/content
+        el.innerHTML = `
+          <div class=" bg-white text-neutral-500 px-2 py-1 rounded-lg shadow-sm text-sm leading-tight">
+            <strong class="block text-base">📍${message}</strong>
+            <p class="mt-1"></p>
+          </div>
+        `;
+
+        // Add marker to map
+        const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+
+        // Shrink or grow marker based on zoom
+        map.on('zoom', () => {
+          const zoom = map.getZoom();
+          const scale = zoom < 10 ? 0.5 : 1; // shrink if zoom < 10
+          el.style.transform = `scale(${scale})`;
+        });
+      });
+
+      // // Fit map to points
+      // const bounds = new mapboxgl.LngLatBounds();
+      // points.forEach((point) => bounds.extend(point));
+      // map.fitBounds(bounds, { padding: 50 });
+    });
+
     return () => {
       map.off("load", applySpace);
       map.off("style.load", applySpace);
@@ -57,6 +93,27 @@ const MapComponent = () => {
       mapRef.current = null;
     };
   }, []);
+
+  const getAllMessages = async () => {
+    try {
+        const response = await fetch('/api/messages', {
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json',
+            }
+        });
+
+        const { messages } = await response.json() // <---- this is the array of messages
+
+        return messages.map((msg: any) => [
+          msg.location.lat,
+          msg.location.lng,
+          msg.message
+        ]);
+    } catch {
+        console.log("Error fetching messages");
+    }
+  }
 
   return <div ref={ref} className="w-full h-full" />;
 };
