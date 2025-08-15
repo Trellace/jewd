@@ -30,13 +30,14 @@ export const Header = () => {
         }
     }
 
-
     try {   
-        getCount();
+      getCount();
 
       const saved = localStorage.getItem("avatarEmoji");
       if (saved) setAvatar(saved);
-    } catch {}
+    } catch {
+        console.error("Error fecthing count or fetching storage");
+    }
   }, []);
 
   // Fetch approximate location by IP (cached per session)
