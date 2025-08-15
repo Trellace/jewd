@@ -16,7 +16,7 @@ export default function Home() {
       </div>
 
       {/* Optional dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/20 -z-10" />
+      <div className="absolute inset-0 bg-black/10 -z-10" />
 
       {/* Top bar */}
       <header className="absolute top-0 inset-x-0 p-4 md:p-6 flex items-center justify-between z-10">
@@ -25,10 +25,10 @@ export default function Home() {
         </h1>
         <nav className="flex items-center gap-2">
           <Link
-            href="/explore"
+            href="/test"
             className="rounded-xl px-4 py-2 text-sm font-medium bg-white/10 text-white backdrop-blur hover:bg-white/20 transition"
           >
-            Explore
+            Test
           </Link>
           <Link
             href="/auth"
