@@ -43,7 +43,7 @@ const MapComponent = ({ isPreview = false }: MapRenderProps) => {
       maxZoom: 15,
     });
 
-    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    // map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
     // // Example Points
     // const points: [number, number][] = [
