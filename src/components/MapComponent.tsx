@@ -43,30 +43,44 @@ const MapComponent = ({ isPreview = false }: MapRenderProps) => {
       maxZoom: 15,
     });
 
-    // map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-    // // Example Points
-    // const points: [number, number][] = [
-    //   [134.58478, -25.30149],   // Base point
-    //   [134.59012, -25.29875],   // ~0.5 km northeast
-    //   [134.57934, -25.30512],   // ~0.6 km southwest
-    // ];
+    // Example Points
+    const points: [number, number][] = [
+      [134.58478, -25.30149],   // Base point
+    ];
 
-    // // Only add markers after map is ready
-    // map.on("load", () => {
-    //   points.forEach(([lng, lat]) => {
-    //     //add custom make maker to each maker
-    //     const el = document.createElement('div');
-    //     el.className = 'custom-map-marker';
-    //     //create new marker on map with custom maker passed in
-    //     new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
-    //   });
+    // Only add markers after map is ready
+    map.on("load", () => {
+      points.forEach(([lng, lat]) => {
+        // Create custom marker element
+        const el = document.createElement('div');
+        el.className = 'custom-map-marker inline-block transform origin-bottom-center';
 
-    //   // Fit map to points
-    //   const bounds = new mapboxgl.LngLatBounds();
-    //   points.forEach((point) => bounds.extend(point));
-    //   map.fitBounds(bounds, { padding: 50 });
-    // });
+        // Add inner HTML for popup/content
+        el.innerHTML = `
+          <div class="h-fit bg-purple-700 text-white px-2 py-3 rounded-lg shadow-lg text-sm leading-tight">
+            <strong class="block text-base">📍{ date/time }</strong>
+            <p class="mt-1">Custom details here Custom details here Custom details here Custom details here</p>
+          </div>
+        `;
+
+        // Add marker to map
+        const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+
+        // Shrink or grow marker based on zoom
+        map.on('zoom', () => {
+          const zoom = map.getZoom();
+          const scale = zoom < 10 ? 0.5 : 1; // shrink if zoom < 10
+          el.style.transform = `scale(${scale})`;
+        });
+      });
+
+      // // Fit map to points
+      // const bounds = new mapboxgl.LngLatBounds();
+      // points.forEach((point) => bounds.extend(point));
+      // map.fitBounds(bounds, { padding: 50 });
+    });
 
     return () => {
       map.remove();
