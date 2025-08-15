@@ -42,7 +42,7 @@ const MapComponent = ({isPreview = false}: MapRenderProps) => {
       
     });
 
-    //mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+    // mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
     // Example: add markers for movingObjects
     // movingObjects.forEach(obj => {
