@@ -5,7 +5,7 @@ const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 });
 
-export async function POST(req: Request, res: NextResponse) {
+export async function POST(req: Request) {
   try {
     const body = await req.json();
 
@@ -16,11 +16,17 @@ export async function POST(req: Request, res: NextResponse) {
       );
     }
 
-    const devPrompt = `
-    
-        Using the following information, find 5 house for sale in the region of {{location}}, Australia that fit the conditions set below and provide a 0-10 score for each of the following metrics depending on how well the property fits the client’s needs.
+    if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
+      console.warn("OPENAI_API_KEY is not set in the environment variables");
+      return NextResponse.json(
+        { error: "API key is not configured" },
+        { status: 500 }
+      );
+    }
 
-        Each property should have {{# of bedrooms, bathrooms and car spaces}} and be within 5% of {{budget}}. The client has this as a description of their wants and needs: {{enter here}}.
+    // Optional: you can prepend your developer prompt here if needed
+    const devPrompt = `
+        Using the following information, find 5 house for sale in the region of the location in Australia provided that fit the conditions set below and provide a 0-10 score for each of the following metrics depending on how well the property fits the client’s needs.
 
         Provide a candid 0-10 int score and short reason for it on each of the following metrics:
 
@@ -51,10 +57,10 @@ export async function POST(req: Request, res: NextResponse) {
 
         Also provide a short overall summary on each property.
 
-        Return this data json data in the format of: {
+        Return this data as properly indented json in the format of: {
             address: string,
             coordinates: string,
-            asking price: string,
+            price: string,
             image url: string,
             seller url: string,
             summary: string,
@@ -64,38 +70,31 @@ export async function POST(req: Request, res: NextResponse) {
                 metric_reason: string
             }
         }
-    
     `;
-    
-    const message = [
-      {
-        role: "developer",
-        content: devPrompt
-      },
-      ...body.messages
+
+    const messages = [
+      { role: "system", content: devPrompt },
+      ...body.messages,
     ];
-    
-    if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
-      console.warn("OPENAI_API_KEY is not set in the environment variables");
-      return NextResponse.json(
-        { error: "API key is not configured" },
-        { status: 500 }
-      );
-    }
 
-    // const completion = await openai.chat.completions.create({
-    //   model: "gpt-4.1-nano",
-    //   messages: message
-    // });
-    
-    const theResponse = "";
-    // completion.choices[0].message;
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4.1-nano",
+      messages: messages,
+      tools: [
+        { type: "web_search_preview" },
+      ],
+    });
 
-    return NextResponse.json({ output: theResponse }, { status: 200 });
+    const message = completion.choices[0]?.message?.content ?? "";
+
+    return NextResponse.json({ output: message }, { status: 200 });
   } catch (error) {
     console.error("Error processing AI request:", error);
     return NextResponse.json(
-      { error: "Failed to process your request", details: error instanceof Error ? error.message : String(error) },
+      {
+        error: "Failed to process your request",
+        details: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }

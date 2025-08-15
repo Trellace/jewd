@@ -22,14 +22,14 @@ export default function Page() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-
+ 
     const FetchGPT = async () => {
         const userPrompt = `
-Using the following information, find 5 houses for sale in the region of ${formData.location}, Australia that fit the conditions set below and provide a 0-10 score for each of the following metrics depending on how well the property fits the client’s needs.
+            find houses for sale in the region of ${formData.location}, Australia that fit the conditions set below.
 
-Each property should have ${formData.bedrooms} bedrooms, ${formData.bathrooms} bathrooms and ${formData.carSpaces} car spaces and be within 5% of ${formData.budget}. The client has this as a description of their wants and needs: ${formData.description}.
+            Each property should have ${formData.bedrooms} bedrooms, ${formData.bathrooms} bathrooms and ${formData.carSpaces} car spaces and be within 5% of ${formData.budget}. The client has this as a description of their wants and needs: ${formData.description}.
         `;
-
+        
         try {
             const res = await fetch("/api/chat", {
                 method: "POST",
@@ -40,14 +40,14 @@ Each property should have ${formData.bedrooms} bedrooms, ${formData.bathrooms} b
                     ]
                 }),
             });
-
-            toast("Message sent");
-
+            
+            
             if (!res.ok) {
                 throw new Error(`Request failed: ${res.status}`);
             }
-
+            
             const data = await res.json();
+            console.log(data);
             setMessage(JSON.stringify(data.output, null, 2));
         } catch (err) {
             console.error(err);
@@ -113,7 +113,7 @@ Each property should have ${formData.bedrooms} bedrooms, ${formData.bathrooms} b
                         isTextArea
                     />
 
-                    <Button onClick={FetchGPT} className="bg-purple-500 hover:bg-purple-600 mt-2">
+                    <Button onClick={FetchGPT} className="bg-purple-500 cursor-pointer hover:bg-purple-600 mt-2">
                         Send to GPT
                     </Button>
 
