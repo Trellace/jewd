@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useUser } from "@/contexts/userContext";
 
 const EMOJIS = [
   "😄","🤖","🐨","🐯","🐶","🐱","🐧","🐸","🐵","🦊","🐼","🐻","🐷","🐮","🐔","🐙","👾","🧠","🌏","🚀","💬"
