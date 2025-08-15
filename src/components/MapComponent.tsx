@@ -77,7 +77,7 @@ const MapComponent = () => {
         // Add the "icon" content
         const iconContent = document.createElement('div');
         iconContent.className = 'w-5 h-5';
-        iconContent.style.backgroundImage = "url('https://cdn-icons-png.flaticon.com/512/2598/2598865.png')";
+        iconContent.style.backgroundImage = "url('https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-dialogue-message-icon-3d-cute-bubble-box-png-image_6104861.png')";
         iconContent.style.backgroundSize = 'cover';
         iconContent.innerText = '';
 
