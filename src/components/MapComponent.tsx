@@ -12,14 +12,15 @@ interface MovingObject {
 }
 
 interface MapRenderProps {
-    isPreview?: boolean
+  isPreview?: boolean;
 }
 
-const MapComponent = ({isPreview = false}: MapRenderProps) => {
+const MapComponent = ({ isPreview = false }: MapRenderProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
 
   const movingObjects: MovingObject[] = [
+    // Example:
     // { id: 1, name: "Example", coordinates: [144.9631, -37.8136] }, // Melbourne
   ];
 
@@ -29,46 +30,49 @@ const MapComponent = ({isPreview = false}: MapRenderProps) => {
       console.error("Missing NEXT_PUBLIC_MAPBOX_TOKEN in .env.local");
       return;
     }
+    
     if (!mapContainer.current || mapRef.current) return; // init once
 
     mapboxgl.accessToken = token;
 
-    mapRef.current = new mapboxgl.Map({
+    const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/light-v11",
-      center: [133.7751, -25.2744], // Australia (lng, lat)
+      center: [133.7751, -25.2744], // Australia
       zoom: 4,
       maxZoom: 15,
-      
     });
 
-    //mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+    mapRef.current = map;
 
-    // Example: add markers for movingObjects
-    // movingObjects.forEach(obj => {
-    //   new mapboxgl.Marker().setLngLat(obj.coordinates).setPopup(
-    //     new mapboxgl.Popup({ offset: 24 }).setText(obj.name)
-    //   ).addTo(mapRef.current!);
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    
+    //Example Points if add/cahnge these then the map will scale to points
+    // const points: [number, number][] = [
+    //     [134.58478, -25.30149],   // Base point
+    //     [134.59012, -25.29875],   // ~0.5 km northeast
+    //     [134.57934, -25.30512],   // ~0.6 km southwest
+    // ];
+
+    // // Only add markers after map is ready
+    // map.on("load", () => {
+    //   points.forEach(([lng, lat]) => {
+    //     new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+    //   });
+
+    //   // Fit map to bounds
+    //   const bounds = new mapboxgl.LngLatBounds();
+    //   points.forEach((point) => bounds.extend(point));
+    //   map.fitBounds(bounds, { padding: 100});
     // });
 
     return () => {
-      mapRef.current?.remove();
+      map.remove();
       mapRef.current = null;
     };
   }, []);
 
-  // Friendly placeholder if token missing so the page doesn’t crash
-  if (!process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
-    return (
-      <div className="flex h-full w-full items-center justify-center bg-gray-100">
-        <p className="text-sm text-gray-600">
-          Set <code>NEXT_PUBLIC_MAPBOX_TOKEN</code> in <code>.env.local</code> and restart dev server.
-        </p>
-      </div>
-    );
-  }
-
-  return <div ref={mapContainer} className="w-full h-full -z-10" />;
+  return <div ref={mapContainer} className="w-full h-full" />;
 };
 
 export default MapComponent;
