@@ -136,8 +136,7 @@
 }
 
 .custom-map-marker {
-  background-image: url('https://freesvg.org/img/CM-Isometric-Home.png');
-  max-width: 150px;
+  max-width: 200px;
   background-size: cover;
   border-radius: 50%;
   cursor: pointer;

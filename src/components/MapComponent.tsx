@@ -5,6 +5,14 @@ import { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
+type Message = {
+  location: {
+    lat: number;
+    lng: number;
+  };
+  message: string;
+};
+
 const MapComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -21,7 +29,7 @@ const MapComponent = () => {
       container: ref.current,
       style: "mapbox://styles/mapbox/light-v11",
       projection: "globe",
-      center: [0, 10],
+      center: [112, -44],
       zoom: 1.1,         // zoomed out so you can see space around the globe
       antialias: true,
       maxZoom: 15,
@@ -59,24 +67,31 @@ const MapComponent = () => {
       points.forEach(([lat, lng, message]) => {
         // Create custom marker element
         const el = document.createElement('div');
-        el.className = 'custom-map-marker inline-block transform origin-bottom-center';
+        el.className = 'custom-map-marker relative inline-block';
 
-        // Add inner HTML for popup/content
-        el.innerHTML = `
-          <div class=" bg-white text-neutral-500 px-2 py-1 rounded-xl shadow-sm text-sm leading-tight">
-            <strong class="block text-base">📍${message}</strong>
-            <p class="mt-1"></p>
-          </div>
-        `;
+        // Add the "message content to the div" content
+        const divContent = document.createElement('div');
+        divContent.className = 'bg-white text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
+        divContent.innerText = message;
+
+        // Add the "icon" content
+        const iconContent = document.createElement('div');
+        iconContent.className = 'w-5 h-5';
+        iconContent.style.backgroundImage = "url('https://cdn-icons-png.flaticon.com/512/2598/2598865.png')";
+        iconContent.style.backgroundSize = 'cover';
+        iconContent.innerText = '';
+
+        // Append both to marker
+        el.appendChild(divContent);
+        el.appendChild(iconContent);
 
         // Add marker to map
         const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
 
-        // Shrink or grow marker based on zoom
-        map.on('zoom', () => {
-          const zoom = map.getZoom();
-          const scale = zoom < 10 ? 0.5 : 1; // shrink if zoom < 10
-          el.style.transform = `scale(${scale})`;
+        // On Click Show Text For That Bubble, click again to hide
+        el.addEventListener('click', () => {
+          divContent.classList.toggle('hidden');
+          iconContent.classList.toggle('hidden');
         });
       });
 
@@ -105,7 +120,7 @@ const MapComponent = () => {
 
         const { messages } = await response.json() // <---- this is the array of messages
 
-        return messages.map((msg: any) => [
+        return messages.map((msg: Message) => [
           msg.location.lat,
           msg.location.lng,
           msg.message
