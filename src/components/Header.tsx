@@ -11,10 +11,29 @@ export const Header = () => {
   const [open, setOpen] = useState(false);
   const [avatar, setAvatar] = useState("😄");
   const [locationLabel, setLocationLabel] = useState<string>("");
+  const [messageCount, setMessageCount] = useState(0);
 
   // Load saved avatar
   useEffect(() => {
-    try {
+    async function getCount() {
+        const response = await fetch('/api/checkdb', {
+            method: 'GET',
+            headers: {
+            'Content-Type': 'application/json',
+            }
+        });
+    
+        const { count } = await response.json();
+    
+        if (count) {
+            setMessageCount(count);
+        }
+    }
+
+
+    try {   
+        getCount();
+
       const saved = localStorage.getItem("avatarEmoji");
       if (saved) setAvatar(saved);
     } catch {}
@@ -62,8 +81,8 @@ export const Header = () => {
 
   return (
     <>
-      <div className="absolute top-0 p-4 justify-between items-center w-full z-10 flex flex-row">
-        <h1 className="text-xl font-semibold text-neutral-600">99999 Messages</h1>
+      <div className="absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
+        <h1 className="text-xl font-semibold text-neutral-600">{messageCount} messages</h1>
 
         <div className="flex items-center gap-3">
           <div

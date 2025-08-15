@@ -63,7 +63,7 @@ const MapComponent = () => {
 
         // Add inner HTML for popup/content
         el.innerHTML = `
-          <div class=" bg-white text-neutral-500 px-2 py-1 rounded-lg shadow-sm text-sm leading-tight">
+          <div class=" bg-white text-neutral-500 px-2 py-1 rounded-xl shadow-sm text-sm leading-tight">
             <strong class="block text-base">📍${message}</strong>
             <p class="mt-1"></p>
           </div>
