@@ -11,7 +11,11 @@ interface MovingObject {
   coordinates: [number, number]; // [lng, lat]
 }
 
-const MapComponent: React.FC = () => {
+interface MapRenderProps {
+    isPreview: boolean
+}
+
+const MapComponent = ({isPreview}: MapRenderProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
 
@@ -33,11 +37,12 @@ const MapComponent: React.FC = () => {
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/light-v11",
       center: [133.7751, -25.2744], // Australia (lng, lat)
-      zoom: 3.2,
+      zoom: 4,
       maxZoom: 15,
+      
     });
 
-    mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+    //mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
     // Example: add markers for movingObjects
     // movingObjects.forEach(obj => {
