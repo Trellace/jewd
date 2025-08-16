@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, context: { params: { id: string } }
     await connectDB();
 
     const { action } = await req.json();
-    const id = context.params.id; // ✅ use context.params
+    const id = await context.params.id;
 
     if (!["up", "down"].includes(action)) {
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
