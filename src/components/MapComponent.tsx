@@ -122,8 +122,8 @@ const MapComponent = () => {
 
         // Add the "icon" content
         const iconContent = document.createElement('div');
-        iconContent.className = 'w-5 h-5';
-        iconContent.style.backgroundImage = "url('https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-dialogue-message-icon-3d-cute-bubble-box-png-image_6104861.png')";
+        iconContent.className = 'w-5 h-5 rounded-full bg-white border text-center flex';
+        // iconContent.style.backgroundImage = "url('https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-dialogue-message-icon-3d-cute-bubble-box-png-image_6104861.png')";
         iconContent.style.backgroundSize = 'cover';
         iconContent.innerText = emoji ? emoji : ""; //Could put the emoji avatar here instead of the icon above
 
