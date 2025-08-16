@@ -26,7 +26,7 @@ const UpVoteMessage: React.FC<UpVoteMessageProps> = ({ message, voteCount, id })
 
       setUpvotes(action == 'up' ? upvotes + 1 : upvotes - 1);
 
-      const data = await res.json();
+      //const data = await res.json();
   //    console.log("Updated message:", data.message);
     } catch (err) {
       console.error(err);

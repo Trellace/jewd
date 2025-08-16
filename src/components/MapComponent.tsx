@@ -90,7 +90,7 @@ const MapComponent = () => {
       center: [112, -44],
       zoom: 1.1,
       antialias: true,
-      maxZoom: 18,
+      maxZoom: 20,
     });
 
     mapRef.current = map;
