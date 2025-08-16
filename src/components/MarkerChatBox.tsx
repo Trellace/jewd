@@ -5,9 +5,12 @@ import { ArrowRight, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-const message : string = "";
+interface MarkerChatBoxProps {
+  message: string;
+  replyHistory: string[]; // FIXED TYPE
+}
 
-const MarkerChatBox = () => {
+const MarkerChatBox : React.FC<MarkerChatBoxProps> = ({ message, replyHistory }) => {
   
   return (
     <div className="absolute top-0 bg-gray-100 px-3 py-3 rounded-xl">
@@ -15,7 +18,13 @@ const MarkerChatBox = () => {
             <div className="text-gray-500">
                 <p>Reply History:</p>
                 <div className="bg-gray-200 px-1 py-1 rounded-sm text-gray-500 h-max overflow-y-scroll">
-                    <p>History Here...</p>
+                    
+                    {/* Map through reply history and display each reply */}
+                    {replyHistory.map((reply, index) => (
+                        <p key={index}>{reply}</p>
+                    ))}
+
+                    <p>{message}</p>
                 </div>
             </div>
             <div className="flex flex-row gap-1">
