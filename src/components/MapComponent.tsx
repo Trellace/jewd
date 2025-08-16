@@ -62,6 +62,7 @@ const MapComponent = () => {
 
     // Only add markers after map is ready
     map.on("load", async () => {
+
       const points: [number, number, string][] = await getAllMessages();
       //console.log(points);
       points.forEach(([lat, lng, message]) => {
