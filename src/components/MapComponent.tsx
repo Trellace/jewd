@@ -118,12 +118,19 @@ const MapComponent = () => {
         // Add the "message content to the div" content
         const divContent = document.createElement('div');
         divContent.className = 'bg-white text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
-        divContent.innerText = message;
+        const root = ReactDOM.createRoot(divContent);
+        root.render(
+          <UpVoteMessage
+            message={message}
+            voteCount={upvotes}
+          />
+        );
+
 
         // Add the "icon" content
         const iconContent = document.createElement('div');
         iconContent.className = 'w-5 h-5';
-        iconContent.style.backgroundImage = "url('https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-dialogue-message-icon-3d-cute-bubble-box-png-image_6104861.png')";
+        iconContent.style.backgroundImage = "absolute url('https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-dialogue-message-icon-3d-cute-bubble-box-png-image_6104861.png')";
         iconContent.style.backgroundSize = 'cover';
         iconContent.innerText = emoji ? emoji : ""; //Could put the emoji avatar here instead of the icon above
 
