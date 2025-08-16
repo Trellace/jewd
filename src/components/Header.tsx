@@ -5,6 +5,12 @@ import { useUser } from "@/contexts/userContext";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 
+import {
+  EmojiPicker,
+  EmojiPickerSearch,
+  EmojiPickerContent,
+} from "@/components/ui/emoji-picker";
+
 const EMOJIS = [
   "😄","🤖","🐨","🐯","🐶","🐱","🐧","🐸","🐵","🦊","🐼","🐻","🐷","🐮","🐔","🐙","👾","🧠","🌏","🚀","💬"
 ];
