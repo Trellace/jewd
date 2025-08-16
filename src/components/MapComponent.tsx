@@ -7,7 +7,7 @@ import ReactDOM from "react-dom/client";
 import UpVoteMessage from "./UpVoteMessage";
 
 import io from "socket.io-client";
-// const socket = io("http://localhost:3001");
+const socket = io("http://localhost:3001");
 
 
 type Message = {
@@ -25,6 +25,7 @@ const MapComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
+  const socket = io("http://localhost:3001");
 
   // useEffect(() => {
   //   socket.on("newMessage", (msg) => {
