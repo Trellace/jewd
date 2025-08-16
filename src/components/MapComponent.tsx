@@ -34,15 +34,15 @@ const MapComponent = () => {
     el.className = "custom-map-marker inline-block";
     el.style.opacity = "0";
     el.style.transition = "opacity 2s ease-in-out";
-    setTimeout(() => (el.style.opacity = "1"), 100);
+    setTimeout(() => (el.style.opacity = "1"), 50);
 
     const wrapper = document.createElement("div");
     wrapper.className = "relative flex items-center";
 
     const divContent = document.createElement("div");
     divContent.className = // this should always be infornt of other markers
-      "absolute left-full text-neutral-500 px-2 py-1 rounded-full z-[9999] text-sm hidden bg-white shadow pointer-events-auto";
-    divContent.style.transition = "opacity 0.1s ease-in-out";
+      "absolute left-full text-neutral-500 rounded-full z-[9999] text-sm hidden bg-white shadow pointer-events-auto";
+    divContent.style.transition = "opacity 0.0s ease-in-out";
 
     const root = ReactDOM.createRoot(divContent);
     root.render(
