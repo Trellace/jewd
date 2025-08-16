@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowBigDown, ArrowBigUp, ArrowRight, MapPin } from "lucide-react";
+import { TbArrowBigDownFilled, TbArrowBigUpFilled } from "react-icons/tb";
 
 interface UpVoteMessageProps {
   message: string;
@@ -34,18 +34,18 @@ const UpVoteMessage: React.FC<UpVoteMessageProps> = ({ message, voteCount, id })
   }
   
   return (
-    <div className="absolute flex flex-row gap-x-2 w-max">
-        <button onClick={() => handleVote(id, "up")} className="bg-white text-neutral-500 p-1.5 rounded-2xl hover:bg-green-400">
-            <ArrowBigUp />
+    <div className="flex flex-row gap-1 w-max p-1 items-center">
+        <button onClick={() => handleVote(id, "up")} className="bg-white text-neutral-500 rounded-full hover:text-green-600">
+            <TbArrowBigUpFilled />
         </button>
 
-        <p className="bg-white text-neutral-500 px-3 py-2 rounded-2xl shadow text-sm"> {upvotes}</p>
+        <p className="text-lg mx-2"> {upvotes}</p>
 
-        <button onClick={() => handleVote(id, "down")} className="bg-white text-neutral-500 p-1.5 rounded-2xl hover:hover:bg-red-400">
-            <ArrowBigDown />
+        <button onClick={() => handleVote(id, "down")} className="bg-white text-neutral-500rounded-full hover:text-red-500">
+            <TbArrowBigDownFilled />
         </button>
       
-        <div className="bg-white text-neutral-500 px-3 py-2 rounded-xl shadow text-sm">
+        <div className="bg-white text-neutral-500 px-3 py-2 text-sm">
             <p>{message}</p>
         </div>
     </div>
