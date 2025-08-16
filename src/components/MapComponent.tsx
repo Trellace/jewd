@@ -4,6 +4,8 @@
 import { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import ReactDOM from "react-dom/client";
+import UpVoteMessage from "./UpVoteMessage";
 
 type Message = {
   location: {
@@ -72,12 +74,12 @@ const MapComponent = () => {
 
         // Add the "message content to the div" content
         const divContent = document.createElement('div');
-        divContent.className = 'bg-white text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
+        divContent.className = 'bg-white flex-row gap-1 text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
         divContent.innerText = message;
-
+      
         // Add the "icon" content
         const iconContent = document.createElement('div');
-        iconContent.className = 'w-5 h-5';
+        iconContent.className = 'w-7 h-7';
         iconContent.style.backgroundImage = "url('https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-dialogue-message-icon-3d-cute-bubble-box-png-image_6104861.png')";
         iconContent.style.backgroundSize = 'cover';
         iconContent.innerText = ''; //Could put the emoji avatar here instead of the icon above
