@@ -6,6 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import ReactDOM from "react-dom/client";
 import UpVoteMessage from "./UpVoteMessage";
 
+
 type Message = {
   location: {
     lat: number;
@@ -21,6 +22,18 @@ const MapComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
+
+  // useEffect(() => {
+  //   socket.on("newMessage", (msg) => {
+  //     setMessages((prev) => [...prev, msg]);
+  //   });
+
+  //   return () => {
+  //     socket.off("newMessage");
+  //   };
+  // }, []);
+
+  // // Render messages...
 
   useEffect(() => {
     if (!ref.current || mapRef.current) return;
