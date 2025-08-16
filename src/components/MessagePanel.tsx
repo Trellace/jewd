@@ -85,7 +85,7 @@ export const MessagePanel = () => {
       </div>
 
       <Button
-        disabled={!!error || message === ""}
+        disabled={!!error || message === "" || message.length > 50}
         onClick={handleSend}
         className="ml-4 p-2 bg-purple-500 hover:scale-110 shadow-md duration-200 transition-all hover:bg-purple-400 cursor-pointer"
       >
