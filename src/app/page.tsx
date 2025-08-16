@@ -2,6 +2,7 @@
 
 import { Header } from "@/components/Header";
 import MapComponent from "@/components/MapComponent";
+import MarkerChatBox from "@/components/MarkerChatBox";
 
 import { MessagePanel } from "@/components/MessagePanel";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ export default function Home() {
         <Header/>
 
         <MapComponent />
-
+        
         <MessagePanel/>
     </div>
   );

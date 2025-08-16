@@ -29,11 +29,12 @@ const MapComponent = () => {
       container: ref.current,
       style: "mapbox://styles/mapbox/light-v11",
       projection: "globe",
-      center: [112, -44],
+      center: [112, -44], // Australia center
       zoom: 1.1,         // zoomed out so you can see space around the globe
       antialias: true,
       maxZoom: 15,
     });
+    
     mapRef.current = map;
 
     // dark fallback while loading (doesn't affect earth colors)
