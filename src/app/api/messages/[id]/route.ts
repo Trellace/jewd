@@ -13,11 +13,11 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     // action should be "upvote" or "downvote"
     const { id } = params;
 
-    if (!["upvote", "downvote"].includes(action)) {
+    if (!["up", "down"].includes(action)) {
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
     }
 
-    const update = action === "upvote" ? 1 : -1;
+    const update = action === "up" ? 1 : -1;
 
     const message = await Message.findByIdAndUpdate(
       id,
