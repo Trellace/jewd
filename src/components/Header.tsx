@@ -95,10 +95,10 @@ export const Header = () => {
         </div>
 
         <div className="flex flex-row items-center gap-3">
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
               <Switch id="collapse" />
               <Label htmlFor="collapse" className="text-neutral-800">Collapse messages</Label>
-          </div>
+          </div> */}
 
           <div
             className="hidden sm:flex items-center max-w-[50vw] rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"

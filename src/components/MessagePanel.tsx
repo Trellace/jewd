@@ -70,7 +70,7 @@ export const MessagePanel = () => {
   };
 
   return (
-    <div className="absolute left-0 right-0 mx-auto w-1/2 bottom-10 flex items-center shadow-md bg-white border border-gray-200 rounded-2xl h-14 p-2">
+    <div className="absolute left-0 right-0 mx-auto w-1/2 bottom-10 flex items-center shadow-md bg-white border border-gray-200 rounded-3xl h-14 p-2">
       <div className="flex-1 flex flex-row justify-center items-center">
         <Input
           placeholder="Type a message..."
@@ -92,16 +92,16 @@ export const MessagePanel = () => {
         <ArrowRight size={30} />
       </Button>
 
-      <Button
+      {/* <Button
         variant={"ghost"}
         aria-label="Recenter Location"
         onClick={getUserLocation}
         className="ml-2 p-2 hover:scale-110 text-neutral-400 duration-200 transition-all cursor-pointer"
       >
         <MapPin size={30} />
-      </Button>
+      </Button> */}
 
-      {error && <h3 className="absolute top-16 text-red-500">{error}</h3>}
+      {error && <h3 className="absolute top-16 text-sm text-red-500">{error}</h3>}
     </div>
   );
 };
