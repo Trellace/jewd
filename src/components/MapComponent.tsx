@@ -13,11 +13,15 @@ type Message = {
     lng: number;
   };
   message: string;
+  emoji: string;
+  _id: string;
+  upvotes: number;
 };
 
 const MapComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
 
   useEffect(() => {
     if (!ref.current || mapRef.current) return;
@@ -34,7 +38,7 @@ const MapComponent = () => {
       center: [112, -44], // Australia
       zoom: 1.1,         // zoomed out so you can see space around the globe
       antialias: true,
-      maxZoom: 15,
+      maxZoom: 18,
     });
     mapRef.current = map;
 
@@ -60,29 +64,68 @@ const MapComponent = () => {
     map.on("load", applySpace);
     map.on("style.load", applySpace);
 
-    // const points: [number, number][] = getAllMessages();
+    const isInViewPort = (lngLat: mapboxgl.LngLat, bufferPx = 100) => {
+      const point = map.project(lngLat);
+      const canvas = map.getCanvas();
+      const bounds = {
+        left: -bufferPx,
+        top: -bufferPx,
+        right: canvas.width + bufferPx,
+        bottom: canvas.height + bufferPx
+      };
+
+      return point.x >= bounds.left &&
+             point.x <= bounds.right &&
+             point.y >= bounds.top && 
+             point.y <= bounds.bottom;
+    };
+
+    const updateMarkerVisibility = () => {
+      markersRef.current.forEach((marker) => {
+        const element = marker.getElement();
+        const lngLat = marker.getLngLat();
+        const inViewport = isInViewPort(lngLat);
+        
+        if (inViewport) {
+          // Fade in
+          element.style.opacity = '1';
+          element.style.transform = 'scale(1)';
+          element.style.pointerEvents = 'auto';
+        } else {
+          // Fade out
+          element.style.opacity = '0';
+          element.style.transform = 'scale(0.8)';
+          element.style.pointerEvents = 'none';
+        }
+      });
+    };    
 
     // Only add markers after map is ready
     map.on("load", async () => {
 
-      const points: [number, number, string][] = await getAllMessages();
+      const points: [number, number, string, string, string, number][] = await getAllMessages();
       //console.log(points);
-      points.forEach(([lat, lng, message]) => {
+      points.forEach(([lat, lng, message, emoji, _id, upvotes]) => {
         // Create custom marker element
         const el = document.createElement('div');
         el.className = 'custom-map-marker relative inline-block';
 
+        // Add smooth transition styles
+        el.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+        el.style.opacity = '0'; // Start hidden
+        el.style.transform = 'scale(0.8)';
+
         // Add the "message content to the div" content
         const divContent = document.createElement('div');
-        divContent.className = 'bg-white flex-row gap-1 text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
+        divContent.className = 'bg-white text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
         divContent.innerText = message;
-      
+
         // Add the "icon" content
         const iconContent = document.createElement('div');
-        iconContent.className = 'w-7 h-7';
+        iconContent.className = 'w-5 h-5';
         iconContent.style.backgroundImage = "url('https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-dialogue-message-icon-3d-cute-bubble-box-png-image_6104861.png')";
         iconContent.style.backgroundSize = 'cover';
-        iconContent.innerText = ''; //Could put the emoji avatar here instead of the icon above
+        iconContent.innerText = emoji ? emoji : ""; //Could put the emoji avatar here instead of the icon above
 
         // Append both to marker
         el.appendChild(divContent);
@@ -90,6 +133,7 @@ const MapComponent = () => {
 
         // Add marker to map
         const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+        markersRef.current.push(marker);
 
         // On Click Show Text For That Bubble, click again to hide
         el.addEventListener('click', () => {
@@ -98,6 +142,13 @@ const MapComponent = () => {
         });
       });
 
+      updateMarkerVisibility();
+
+      map.on('move', updateMarkerVisibility);
+      map.on('zoom', updateMarkerVisibility);
+      map.on('pitch', updateMarkerVisibility);
+      map.on('rotate', updateMarkerVisibility);
+
       // // Fit map to points
       // const bounds = new mapboxgl.LngLatBounds();
       // points.forEach((point) => bounds.extend(point));
@@ -105,8 +156,21 @@ const MapComponent = () => {
     });
 
     return () => {
+
+      if(mapRef.current) {
+        map.off('move', updateMarkerVisibility);
+        map.off('zoom', updateMarkerVisibility);
+        map.off('pitch', updateMarkerVisibility);
+        map.off('rotate', updateMarkerVisibility);
+      }
+
       map.off("load", applySpace);
       map.off("style.load", applySpace);
+      
+      // Clean up markers
+      markersRef.current.forEach(marker => marker.remove());
+      markersRef.current = [];
+
       map.remove();
       mapRef.current = null;
     };
@@ -122,12 +186,17 @@ const MapComponent = () => {
         });
 
         const { messages } = await response.json() // <---- this is the array of messages
+        console.log(messages);
+        
+        return messages.map((msg: Message) => {
+          // jitter factor ~±0.0001 degrees (~10m)
+          const jitter = 0.00015; 
 
-        return messages.map((msg: Message) => [
-          msg.location.lat,
-          msg.location.lng,
-          msg.message
-        ]);
+          const noisyLat = msg.location.lat + (Math.random() - 0.5) * jitter;
+          const noisyLng = msg.location.lng + (Math.random() - 0.5) * jitter;
+
+          return [noisyLat, noisyLng, msg.message, msg.emoji, msg._id, msg.upvotes];
+        });
     } catch {
         console.log("Error fetching messages");
     }

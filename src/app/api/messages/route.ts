@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    const { message, location } = body;
+    const { message, location, emoji } = body;
 
     if (!message || !location?.lat || !location?.lng) {
       return NextResponse.json({ error: 'Message or location missing' }, { status: 400 });
@@ -18,8 +18,11 @@ export async function POST(req: NextRequest) {
     const newMessage = new Message({
       message,
       location,
+      emoji,
+      upvotes: 0
     });
 
+    console.log(newMessage);
     await newMessage.save();
 
     return NextResponse.json({ 

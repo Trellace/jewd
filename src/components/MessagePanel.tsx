@@ -52,7 +52,7 @@ export const MessagePanel = () => {
     if (message == '' || message == null || message.length > 50 || location == null) return;
 
     try {
-        const data = {message: message, location: location}
+        const data = {message: message, location: location, emoji: user?.emoji}
 
        const response = await fetch('/api/messages', {
             method: 'POST',

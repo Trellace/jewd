@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dox",
+  title: "Doxxed",
   description: "",
 };
 

@@ -6,6 +6,8 @@ export interface MessageDocument extends Document {
     lng: number;
   };
   message: string;
+  emoji: string;
+  upvotes: number;
 }
 
 const MessageSchema = new Schema<MessageDocument>(
@@ -15,15 +17,23 @@ const MessageSchema = new Schema<MessageDocument>(
       required: true,
     },
     location: {
-      lat: {
-        type: Number,
-        required: true,
-      },
-      lng: {
-        type: Number,
-        required: true,
-      },
+        lat: {
+            type: Number,
+            required: true,
+        },
+        lng: {
+            type: Number,
+            required: true,
+        },
     },
+    emoji: {
+      type: String,
+      required: true,
+    },
+    upvotes: {
+        type: Number,
+        required: true
+    }
   },
   {
     timestamps: true,
