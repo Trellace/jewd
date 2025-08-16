@@ -85,7 +85,6 @@ const MapComponent = () => {
         // Add the "message content to the div" content
         const divContent = document.createElement('div');
         divContent.className = 'text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
-        divContent.style.transition = 'opacity 1s ease-in-out';
         const root = ReactDOM.createRoot(divContent);
         root.render(
           <UpVoteMessage
