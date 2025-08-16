@@ -36,6 +36,10 @@ export const MessagePanel = () => {
         if (user && setUser) {
           setUser({ ...user, location: newLocation });
         }
+        
+
+        // nav/move map to users location on map
+        
 
         setError(null);
       },
@@ -88,13 +92,14 @@ export const MessagePanel = () => {
         <ArrowRight size={30} />
       </Button>
 
-      {/* <Button
+      <Button
         variant={"ghost"}
+        aria-label="Recenter Location"
         onClick={getUserLocation}
         className="ml-2 p-2 hover:scale-110 text-neutral-400 duration-200 transition-all cursor-pointer"
       >
         <MapPin size={30} />
-      </Button> */}
+      </Button>
 
       {error && <h3 className="absolute top-16 text-red-500">{error}</h3>}
     </div>
