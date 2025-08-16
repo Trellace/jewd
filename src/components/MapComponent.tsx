@@ -75,7 +75,7 @@ const MapComponent = () => {
 
         // Simple fade in animation when marker is created
         el.style.opacity = '0';
-        el.style.transition = 'opacity 0.3s ease-in-out';
+        el.style.transition = 'opacity 2s ease-in-out';
         
         // Fade in after a short delay
         setTimeout(() => {
@@ -85,7 +85,7 @@ const MapComponent = () => {
         // Add the "message content to the div" content
         const divContent = document.createElement('div');
         divContent.className = 'text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
-        divContent.style.transition = 'opacity 0.2s ease-in-out';
+        divContent.style.transition = 'opacity 1s ease-in-out';
         const root = ReactDOM.createRoot(divContent);
         root.render(
           <UpVoteMessage
