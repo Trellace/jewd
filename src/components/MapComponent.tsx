@@ -19,7 +19,7 @@ type Message = {
   upvotes: number;
 };
 
-const socket = io("http://localhost:3001");
+// const socket = io("http://localhost:3001");
 
 const MapComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -121,10 +121,10 @@ const MapComponent = () => {
       points.forEach((msg) => addMarkerToMap(msg, mapRef.current!));
 
       // 🔹 Add socket listener AFTER map loads
-      socket.on("newMessage", (msg: Message) => {
-        console.log("📩 New message received:", msg);
-        addMarkerToMap(msg, mapRef.current!);
-      });
+      // socket.on("newMessage", (msg: Message) => {
+      //   console.log("📩 New message received:", msg);
+      //   addMarkerToMap(msg, mapRef.current!);
+      // });
     });
 
     return () => {
@@ -134,7 +134,7 @@ const MapComponent = () => {
       markersRef.current = [];
       map.remove();
       mapRef.current = null;
-      socket.off("newMessage");
+      // socket.off("newMessage");
     };
   }, []);
 

@@ -91,7 +91,7 @@ export const Header = () => {
             {/* <Image src="https://i.imgur.com/ZTYTSRw.png" height={100} width={300} alt="DOXXED LOGO" /> */}
             DOXXED
           </div>
-          <h1 className="text-md font-semibold text-neutral-600">{messageCount} messages</h1>
+          <h1 className="text-md font-semibold text-neutral-600 w-full">{messageCount} messages</h1>
         </div>
 
         <div className="flex flex-row items-center gap-3">

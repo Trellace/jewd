@@ -70,7 +70,7 @@ export const MessagePanel = () => {
   };
 
   return (
-    <div className="absolute left-0 right-0 mx-auto w-1/2 bottom-10 flex items-center shadow-md bg-white border border-gray-200 rounded-3xl h-14 p-2">
+    <div className="absolute left-0 right-0 mx-auto sm:w-full sm:mx-2 w-1/2 bottom-10 flex items-center shadow-md bg-white border border-gray-200 rounded-3xl h-14 p-2">
       <div className="flex-1 flex flex-row justify-center items-center">
         <Input
           placeholder="Type a message..."
