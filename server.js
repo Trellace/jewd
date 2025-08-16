@@ -1,7 +1,11 @@
+'use server'
+
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });  // ensures it loads from your file
 
 const app = express();
 const server = http.createServer(app);
