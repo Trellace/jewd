@@ -95,7 +95,7 @@ export const MessagePanel = () => {
         onClick={handleSend}
         className="ml-4 p-2 bg-purple-500 rounded-xl hover:scale-110 shadow-md duration-200 transition-all hover:bg-purple-400 cursor-pointer"
       >
-        {!loading ? <ArrowRight size={30} /> : <LoaderCircle className="animate-spin"/>}
+        {!loading ? <ArrowRight size={30} /> : <LoaderCircle className="animate-spin text-white"/>}
       </Button>
 
       {/* <Button
