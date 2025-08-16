@@ -19,8 +19,10 @@ export async function POST(req: NextRequest) {
       message,
       location,
       emoji,
+      upvotes: 0
     });
 
+    console.log(newMessage);
     await newMessage.save();
 
     return NextResponse.json({ 

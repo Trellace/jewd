@@ -16,19 +16,19 @@ const MessageSchema = new Schema<MessageDocument>(
       type: String,
       required: true,
     },
+    location: {
+        lat: {
+            type: Number,
+            required: true,
+        },
+        lng: {
+            type: Number,
+            required: true,
+        },
+    },
     emoji: {
       type: String,
       required: true,
-    },
-    location: {
-      lat: {
-        type: Number,
-        required: true,
-      },
-      lng: {
-        type: Number,
-        required: true,
-      },
     },
     upvotes: {
         type: Number,
