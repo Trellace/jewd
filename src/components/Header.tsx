@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useUser } from "@/contexts/userContext";
+import { Switch } from "./ui/switch";
+import { Label } from "./ui/label";
 
 const EMOJIS = [
   "😄","🤖","🐨","🐯","🐶","🐱","🐧","🐸","🐵","🦊","🐼","🐻","🐷","🐮","🐔","🐙","👾","🧠","🌏","🚀","💬"
@@ -85,12 +87,17 @@ export const Header = () => {
       <div className="absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
         <div className="flex flex-row items-center gap-2">
           <div className="logo w-full h-full">
-          <img src="https://i.imgur.com/ZTYTSRw.png" alt="DOXXED LOGO" />
-        </div>
-        <h1 className="text-md font-semibold text-neutral-600">{messageCount} messages</h1>
+            <img src="https://i.imgur.com/ZTYTSRw.png" alt="DOXXED LOGO" />
+          </div>
+          <h1 className="text-md font-semibold text-neutral-600">{messageCount} messages</h1>
         </div>
 
         <div className="flex flex-row items-center gap-3">
+          <div className="flex items-center space-x-2">
+              <Switch id="collapse" />
+              <Label htmlFor="collapse">Collapse messages</Label>
+          </div>
+
           <div
             className="hidden sm:flex items-center max-w-[50vw] rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
             aria-live="polite"
