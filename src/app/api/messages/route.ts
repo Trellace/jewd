@@ -15,6 +15,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Message or location missing' }, { status: 400 });
     }
 
+    // Check message count
+    const count = await Message.countDocuments();
+
+    if (count >= 2500) {
+      // Delete oldest message (based on createdAt)
+      const oldest = await Message.findOne().sort({ createdAt: 1 });
+      if (oldest) {
+        await Message.deleteOne({ _id: oldest._id });
+      }
+    }
+
     const newMessage = new Message({
       message,
       location,

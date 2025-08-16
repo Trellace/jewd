@@ -6,12 +6,25 @@ import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import Image from "next/image";
 
+import {
+  EmojiPicker,
+  EmojiPickerSearch,
+  EmojiPickerContent,
+  EmojiPickerFooter,
+} from "@/components/ui/emoji-picker";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "./ui/button";
+
 const EMOJIS = [
   "😄","🤖","🐨","🐯","🐶","🐱","🐧","🐸","🐵","🦊","🐼","🐻","🐷","🐮","🐔","🐙","👾","🧠","🌏","🚀","💬"
 ];
 
 export const Header = () => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [avatar, setAvatar] = useState("😄");
   const [locationLabel, setLocationLabel] = useState<string>("");
   const [messageCount, setMessageCount] = useState(0);
@@ -69,14 +82,14 @@ export const Header = () => {
   // Close with Escape
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [isOpen]);
 
     const selectEmoji = (emoji: string) => {
         setAvatar(emoji);
-        setOpen(false);
+        setIsOpen(false);
 
         if (user && setUser) {
             setUser({ ...user, emoji }); // update the user context
@@ -88,10 +101,10 @@ export const Header = () => {
       <div className="absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
         <div className="flex flex-row items-center gap-2 -top-36">
           <div className="logo w-full text-purple-500 font-bold h-12 overflow-hidden flex items-center">
-            <Image src="/logo-typed.png" height={50} width={200} className="text-purple-500 max-h-full w-auto object-contain" alt="DOXXED LOGO" />
+            <Image src="/logo-typed.png" height={50} width={200} className="max-h-full w-auto object-contain" alt="DOXXED LOGO" />
             {/* DOXXED */}
           </div>
-          <h1 className="text-md font-semibold text-neutral-600 w-full">{messageCount} messages</h1>
+          <h1 className="text-md font-semibold text-neutral-600 w-full select-none">{messageCount} messages</h1>
         </div>
 
         <div className="flex flex-row items-center gap-3">
@@ -101,7 +114,7 @@ export const Header = () => {
           </div> */}
 
           <div
-            className="hidden sm:flex items-center max-w-[50vw] rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
+            className="hidden select-none sm:flex items-center max-w-[50vw] rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
             aria-live="polite"
           >
             <span className="mr-1">📍</span>
@@ -110,18 +123,31 @@ export const Header = () => {
             </span>
           </div>
 
-          <button
-            type="button"
-            aria-label="Open avatar picker"
-            onClick={() => setOpen(true)}
-            className="h-10 w-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center shadow ring-1 ring-black/10 hover:scale-105 transition"
-          >
-            <span className="text-2xl leading-none">{avatar}</span>
-          </button>
+          <Popover onOpenChange={setIsOpen} open={isOpen}>
+            <PopoverTrigger asChild>
+              <Button className="text-2xl w-10 h-10 rounded-full p-1 ring-black/10 ring-1 shadow-sm border hover:bg-white/50 bg-white/80 hover:scale-105">{avatar}</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-fit p-0">
+              <EmojiPicker
+                className="h-[342px]"
+                onEmojiSelect={({ emoji }) => {
+                  setIsOpen(false);
+                  selectEmoji(emoji);
+                }}
+              >
+                <EmojiPickerSearch />
+                <EmojiPickerContent />
+              </EmojiPicker>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 
-      {open && (
+
+
+
+
+      {/* {open && (
         <div
           role="dialog"
           aria-modal="true"
@@ -164,7 +190,7 @@ export const Header = () => {
             </p>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };

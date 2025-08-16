@@ -40,8 +40,8 @@ const MapComponent = () => {
     wrapper.className = "relative flex items-center";
 
     const divContent = document.createElement("div");
-    divContent.className =
-      "absolute left-full text-neutral-500 px-2 py-1 rounded-full text-sm hidden bg-white shadow";
+    divContent.className = // this should always be infornt of other markers
+      "absolute left-full text-neutral-500 px-2 py-1 rounded-full z-[9999] text-sm hidden bg-white shadow pointer-events-auto";
     divContent.style.transition = "opacity 0.1s ease-in-out";
 
     const root = ReactDOM.createRoot(divContent);
