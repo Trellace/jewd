@@ -13,6 +13,7 @@ type Message = {
   message: string;
   emoji: string;
   _id: string;
+  upvotes: number;
 };
 
 const MapComponent = () => {
@@ -64,9 +65,9 @@ const MapComponent = () => {
     // Only add markers after map is ready
     map.on("load", async () => {
 
-      const points: [number, number, string, string, string][] = await getAllMessages();
-      console.log(points);
-      points.forEach(([lat, lng, message, emoji, _id]) => {
+      const points: [number, number, string, string, string, number][] = await getAllMessages();
+      //console.log(points);
+      points.forEach(([lat, lng, message, emoji, _id, upvotes]) => {
         // Create custom marker element
         const el = document.createElement('div');
         el.className = 'custom-map-marker relative inline-block';
@@ -74,7 +75,7 @@ const MapComponent = () => {
         // Add the "message content to the div" content
         const divContent = document.createElement('div');
         divContent.className = 'bg-white text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
-        divContent.innerText = message;
+        divContent.innerText = message + " " + (upvotes ? upvotes : 0);
 
         // Add the "icon" content
         const iconContent = document.createElement('div');
@@ -121,7 +122,7 @@ const MapComponent = () => {
         });
 
         const { messages } = await response.json() // <---- this is the array of messages
-
+        console.log(messages);
         
         return messages.map((msg: Message) => {
           // jitter factor ~±0.0001 degrees (~10m)
@@ -130,7 +131,7 @@ const MapComponent = () => {
           const noisyLat = msg.location.lat + (Math.random() - 0.5) * jitter;
           const noisyLng = msg.location.lng + (Math.random() - 0.5) * jitter;
 
-          return [noisyLat, noisyLng, msg.message, msg.emoji, msg._id];
+          return [noisyLat, noisyLng, msg.message, msg.emoji, msg._id, msg.upvotes];
         });
     } catch {
         console.log("Error fetching messages");
