@@ -18,6 +18,7 @@ type Message = {
 const MapComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
 
   useEffect(() => {
     if (!ref.current || mapRef.current) return;
@@ -60,6 +61,41 @@ const MapComponent = () => {
     map.on("load", applySpace);
     map.on("style.load", applySpace);
 
+    const isInViewPort = (lngLat: mapboxgl.LngLat, bufferPx = 100) => {
+      const point = map.project(lngLat);
+      const canvas = map.getCanvas();
+      const bounds = {
+        left: -bufferPx,
+        top: -bufferPx,
+        right: canvas.width + bufferPx,
+        bottom: canvas.height + bufferPx
+      };
+
+      return point.x >= bounds.left &&
+             point.x <= bounds.right &&
+             point.y >= bounds.top && 
+             point.y <= bounds.bottom;
+    };
+
+    const updateMarkerVisibility = () => {
+      markersRef.current.forEach((marker) => {
+        const element = marker.getElement();
+        const lngLat = marker.getLngLat();
+        const inViewport = isInViewPort(lngLat);
+        
+        if (inViewport) {
+          // Fade in
+          element.style.opacity = '1';
+          element.style.transform = 'scale(1)';
+          element.style.pointerEvents = 'auto';
+        } else {
+          // Fade out
+          element.style.opacity = '0';
+          element.style.transform = 'scale(0.8)';
+          element.style.pointerEvents = 'none';
+        }
+      });
+    };    
 
     // Only add markers after map is ready
     map.on("load", async () => {
@@ -71,10 +107,16 @@ const MapComponent = () => {
         const el = document.createElement('div');
         el.className = 'custom-map-marker relative inline-block';
 
+        // Add smooth transition styles
+        el.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+        el.style.opacity = '0'; // Start hidden
+        el.style.transform = 'scale(0.8)';
+
         // Add the "message content to the div" content
         const divContent = document.createElement('div');
         divContent.className = 'bg-white text-neutral-500 px-3 py-2 rounded-xl shadow text-sm hidden';
         divContent.innerText = message;
+        divContent.style.transition = 'opacity 0.2s ease-in-out'
 
         // Add the "icon" content
         const iconContent = document.createElement('div');
@@ -89,6 +131,7 @@ const MapComponent = () => {
 
         // Add marker to map
         const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+        markersRef.current.push(marker);
 
         // On Click Show Text For That Bubble, click again to hide
         el.addEventListener('click', () => {
@@ -97,6 +140,13 @@ const MapComponent = () => {
         });
       });
 
+      updateMarkerVisibility();
+
+      map.on('move', updateMarkerVisibility);
+      map.on('zoom', updateMarkerVisibility);
+      map.on('pitch', updateMarkerVisibility);
+      map.on('rotate', updateMarkerVisibility);
+
       // // Fit map to points
       // const bounds = new mapboxgl.LngLatBounds();
       // points.forEach((point) => bounds.extend(point));
@@ -104,8 +154,21 @@ const MapComponent = () => {
     });
 
     return () => {
+
+      if(mapRef.current) {
+        map.off('move', updateMarkerVisibility);
+        map.off('zoom', updateMarkerVisibility);
+        map.off('pitch', updateMarkerVisibility);
+        map.off('rotate', updateMarkerVisibility);
+      }
+
       map.off("load", applySpace);
       map.off("style.load", applySpace);
+      
+      // Clean up markers
+      markersRef.current.forEach(marker => marker.remove());
+      markersRef.current = [];
+
       map.remove();
       mapRef.current = null;
     };
