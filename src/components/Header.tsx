@@ -100,9 +100,8 @@ export const Header = () => {
     <>
       <div className="absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
         <div className="flex flex-row items-center gap-2 -top-36">
-          <div className="logo w-full text-purple-500 font-bold h-12 overflow-hidden flex items-center">
-            <Image src="/logo-typed.png" height={50} width={200} className="max-h-full w-auto object-contain" alt="DOXXED LOGO" />
-            {/* DOXXED */}
+          <div className="logo w-full font-bold h-12 overflow-hidden flex items-center">
+            <span className="logo-ink" aria-label="DOXXED LOGO" />
           </div>
           <h1 className="text-md font-semibold text-neutral-600 w-full select-none">{messageCount} messages</h1>
         </div>

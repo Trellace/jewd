@@ -151,3 +151,25 @@
 .mapboxgl-map,
 .mapboxgl-canvas-container,
 .mapboxgl-canvas { background-color: #060814 !important; }
+
+/* css filter to change colour of logo
+/* globals.css */
+.purple-logo {
+  filter: invert(23%) sepia(94%) saturate(7499%) hue-rotate(265deg) brightness(90%) contrast(110%);
+}
+
+:root {
+  --color-accent-a0: oklab(61.717% 0.18324 -0.21598); /* #c800f0 */
+}
+
+/* Recolored logo using the PNG as a mask */
+.logo-ink {
+  display: inline-block;
+  width: 200px;              /* match your <Image> width */
+  height: 50px;              /* match your <Image> height */
+  background: var(--color-accent-a0);
+  -webkit-mask: url('/logo-typed.png') no-repeat center / contain;
+  mask: url('/logo-typed.png') no-repeat center / contain;
+  image-rendering: -webkit-optimize-contrast; /* crisp on WebKit */
+}
+
