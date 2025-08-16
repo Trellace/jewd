@@ -90,7 +90,7 @@ export const Header = () => {
         <h1 className="text-xl font-semibold text-neutral-600">Total Messages: {messageCount}</h1>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-end gap-3">
           <div
             className="hidden sm:flex items-center max-w-[50vw] rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
             aria-live="polite"
