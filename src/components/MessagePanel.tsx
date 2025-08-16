@@ -70,7 +70,7 @@ export const MessagePanel = () => {
   };
 
   return (
-    <div className="absolute left-0 right-0 mx-auto sm:w-full sm:mx-2 w-1/2 bottom-10 flex items-center shadow-md bg-white border border-gray-200 rounded-3xl h-14 p-2">
+    <div className="absolute left-0 right-0 md:mx-auto sm:w-full sm:mx-2 md:w-1/2 bottom-10 flex items-center shadow-md bg-white border border-gray-200 rounded-3xl h-14 p-2">
       <div className="flex-1 flex flex-row justify-center items-center">
         <Input
           placeholder="Type a message..."
@@ -87,7 +87,7 @@ export const MessagePanel = () => {
       <Button
         disabled={!!error || message === "" || message.length > 50}
         onClick={handleSend}
-        className="ml-4 p-2 bg-purple-500 hover:scale-110 shadow-md duration-200 transition-all hover:bg-purple-400 cursor-pointer"
+        className="ml-4 p-2 bg-purple-500 rounded-xl hover:scale-110 shadow-md duration-200 transition-all hover:bg-purple-400 cursor-pointer"
       >
         <ArrowRight size={30} />
       </Button>
