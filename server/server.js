@@ -22,7 +22,9 @@ async function start() {
   // Listen for new inserts
   const changeStream = collection.watch([{ $match: { operationType: "insert" } }]);
   changeStream.on("change", (change) => {
+    console.log("db connected")
     io.emit("newMessage", change.fullDocument);
+    console.log(change.fullDocument)
   });
 
   server.listen(3001, () => console.log("Server running"));
@@ -32,4 +34,9 @@ start();
 
 io.on("connection", (socket) => {
   console.log("Client connected");
+
+  socket.on('message', (message) => {
+        console.log(message);
+        io.emit('message', `${socket.id.substr(0,2)} said ${message}` );   
+    });
 });
