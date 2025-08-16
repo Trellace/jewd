@@ -1,30 +1,51 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowBigDown, ArrowBigUp, ArrowRight, MapPin } from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { TbArrowBigDownFilled, TbArrowBigUpFilled } from "react-icons/tb";
 
 interface UpVoteMessageProps {
   message: string;
   voteCount: number;
+  id: string;
 }
 
-const UpVoteMessage: React.FC<UpVoteMessageProps> = ({ message, voteCount }) => {
+const UpVoteMessage: React.FC<UpVoteMessageProps> = ({ message, voteCount, id }) => {
+  const [upvotes, setUpvotes] = useState(voteCount);
+
+  async function handleVote(id: string, action: "up" | "down") {
+    try {
+      const res = await fetch(`/api/messages/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action }), // action tells server to add or subtract
+      });
+
+      if (!res.ok) throw new Error("Failed to update vote");
+
+      setUpvotes(action == 'up' ? upvotes + 1 : upvotes - 1);
+
+      const data = await res.json();
+  //    console.log("Updated message:", data.message);
+    } catch (err) {
+      console.error(err);
+    }
+  }
   
   return (
-    <div className="absolute flex flex-row gap-x-2 w-max">
-        <button className="bg-white text-neutral-500 p-1.5 rounded-2xl hover:bg-green-400">
-            <ArrowBigUp />
+    <div className="flex flex-row gap-1 w-max p-1 items-center">
+        <button onClick={() => handleVote(id, "up")} className="bg-white text-neutral-500 rounded-full hover:text-green-600">
+            <TbArrowBigUpFilled />
         </button>
 
-        <p className="bg-white text-neutral-500 px-3 py-2 rounded-2xl shadow text-sm"> {voteCount}</p>
+        <p className="text-lg mx-2"> {upvotes}</p>
 
-        <button className="bg-white text-neutral-500 p-1.5 rounded-2xl hover:hover:bg-red-400">
-            <ArrowBigDown />
+        <button onClick={() => handleVote(id, "down")} className="bg-white text-neutral-500rounded-full hover:text-red-500">
+            <TbArrowBigDownFilled />
         </button>
       
-        <div className="bg-white text-neutral-500 px-3 py-2 rounded-xl shadow text-sm">
+        <div className="bg-white text-neutral-500 px-3 py-2 text-sm">
             <p>{message}</p>
         </div>
     </div>

@@ -95,7 +95,7 @@ export const Header = () => {
         <div className="flex flex-row items-center gap-3">
           <div className="flex items-center space-x-2">
               <Switch id="collapse" />
-              <Label htmlFor="collapse">Collapse messages</Label>
+              <Label htmlFor="collapse" className="text-neutral-800">Collapse messages</Label>
           </div>
 
           <div
