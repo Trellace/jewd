@@ -1,7 +1,9 @@
 # Doxxed 
 
 **Doxxed makes local conversation visual.**  
-Choose an emoji avatar, type your note, and it pops up where you are — at **city-level privacy**.  
+
+Choose an emoji avatar, type your note, and it pops up where you are.
+
 It’s the fastest way to **ask, offer, and share** — authentic, real, unfiltered, and grounded in place.
 
 ---
