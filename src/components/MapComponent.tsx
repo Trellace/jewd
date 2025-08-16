@@ -11,6 +11,8 @@ type Message = {
     lng: number;
   };
   message: string;
+  emoji: string;
+  _id: string;
 };
 
 const MapComponent = () => {
@@ -32,7 +34,7 @@ const MapComponent = () => {
       center: [112, -44], // Australia
       zoom: 1.1,         // zoomed out so you can see space around the globe
       antialias: true,
-      maxZoom: 15,
+      maxZoom: 18,
     });
     mapRef.current = map;
 
@@ -58,14 +60,13 @@ const MapComponent = () => {
     map.on("load", applySpace);
     map.on("style.load", applySpace);
 
-    // const points: [number, number][] = getAllMessages();
 
     // Only add markers after map is ready
     map.on("load", async () => {
 
-      const points: [number, number, string][] = await getAllMessages();
-      //console.log(points);
-      points.forEach(([lat, lng, message]) => {
+      const points: [number, number, string, string, string][] = await getAllMessages();
+      console.log(points);
+      points.forEach(([lat, lng, message, emoji, _id]) => {
         // Create custom marker element
         const el = document.createElement('div');
         el.className = 'custom-map-marker relative inline-block';
@@ -80,7 +81,7 @@ const MapComponent = () => {
         iconContent.className = 'w-5 h-5';
         iconContent.style.backgroundImage = "url('https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-dialogue-message-icon-3d-cute-bubble-box-png-image_6104861.png')";
         iconContent.style.backgroundSize = 'cover';
-        iconContent.innerText = ''; //Could put the emoji avatar here instead of the icon above
+        iconContent.innerText = emoji ? emoji : ""; //Could put the emoji avatar here instead of the icon above
 
         // Append both to marker
         el.appendChild(divContent);
@@ -121,11 +122,16 @@ const MapComponent = () => {
 
         const { messages } = await response.json() // <---- this is the array of messages
 
-        return messages.map((msg: Message) => [
-          msg.location.lat,
-          msg.location.lng,
-          msg.message
-        ]);
+        
+        return messages.map((msg: Message) => {
+          // jitter factor ~±0.0001 degrees (~10m)
+          const jitter = 0.00015; 
+
+          const noisyLat = msg.location.lat + (Math.random() - 0.5) * jitter;
+          const noisyLng = msg.location.lng + (Math.random() - 0.5) * jitter;
+
+          return [noisyLat, noisyLng, msg.message, msg.emoji, msg._id];
+        });
     } catch {
         console.log("Error fetching messages");
     }

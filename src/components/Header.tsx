@@ -12,6 +12,7 @@ export const Header = () => {
   const [avatar, setAvatar] = useState("😄");
   const [locationLabel, setLocationLabel] = useState<string>("");
   const [messageCount, setMessageCount] = useState(0);
+  const {user, setUser} = useUser();
 
   // Load saved avatar
   useEffect(() => {
@@ -32,11 +33,11 @@ export const Header = () => {
 
     try {   
       getCount();
-
-      const saved = localStorage.getItem("avatarEmoji");
-      if (saved) setAvatar(saved);
+      if (user && setUser) {
+          setUser({ ...user, emoji: avatar });
+        }
     } catch {
-        console.error("Error fecthing count or fetching storage");
+        console.error("Error fetching count");
     }
   }, []);
 
