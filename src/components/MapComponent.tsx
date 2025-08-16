@@ -5,10 +5,8 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ReactDOM from "react-dom/client";
 import UpVoteMessage from "./UpVoteMessage";
-
-// import io from "socket.io-client";
-// const socket = io("http://localhost:3001");
-
+import io from "socket.io-client";
+import { MessageDocument } from "@/lib/models/Message";
 
 type Message = {
   location: {
@@ -21,23 +19,62 @@ type Message = {
   upvotes: number;
 };
 
+const socket = io("http://localhost:3001");
+
 const MapComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
-  // const socket = io("http://localhost:3001");
 
-  // useEffect(() => {
-  //   socket.on("newMessage", (msg) => {
-  //     setMessages((prev) => [...prev, msg]);
-  //   });
+  // 🔹 Reusable marker creator
+  const addMarkerToMap = (msg: Message, map: mapboxgl.Map) => {
+    const { lat, lng } = msg.location;
 
-  //   return () => {
-  //     socket.off("newMessage");
-  //   };
-  // }, []);
+    const el = document.createElement("div");
+    el.className = "custom-map-marker inline-block";
+    el.style.opacity = "0";
+    el.style.transition = "opacity 2s ease-in-out";
+    setTimeout(() => (el.style.opacity = "1"), 100);
 
-  // // Render messages...
+    const wrapper = document.createElement("div");
+    wrapper.className = "relative flex items-center";
+
+    const divContent = document.createElement("div");
+    divContent.className =
+      "absolute left-full text-neutral-500 px-2 py-1 rounded-full text-sm hidden bg-white shadow";
+    divContent.style.transition = "opacity 0.1s ease-in-out";
+
+    const root = ReactDOM.createRoot(divContent);
+    root.render(
+      <UpVoteMessage
+        message={msg.message}
+        voteCount={msg.upvotes}
+        id={msg._id}
+      />
+    );
+
+    const iconContent = document.createElement("div");
+    iconContent.className =
+      "w-8 h-8 bg-white border rounded-full flex items-center justify-center cursor-pointer text-xl";
+    iconContent.innerText = msg.emoji || "";
+
+    wrapper.appendChild(iconContent);
+    wrapper.appendChild(divContent);
+    el.appendChild(wrapper);
+
+    const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+    markersRef.current.push(marker);
+
+    wrapper.addEventListener("mouseenter", () => {
+      divContent.classList.remove("hidden");
+      divContent.style.opacity = "1";
+    });
+
+    wrapper.addEventListener("mouseleave", () => {
+      divContent.style.opacity = "0";
+      setTimeout(() => divContent.classList.add("hidden"), 200);
+    });
+  };
 
   useEffect(() => {
     if (!ref.current || mapRef.current) return;
@@ -55,6 +92,7 @@ const MapComponent = () => {
       antialias: true,
       maxZoom: 20,
     });
+
     mapRef.current = map;
 
     (map.getContainer() as HTMLElement).style.background = "#060814";
@@ -79,63 +117,13 @@ const MapComponent = () => {
     map.on("style.load", applySpace);
 
     map.on("load", async () => {
-      const points: [number, number, string, string, string, number][] =
-        await getAllMessages();
+      const points: Message[] = await getAllMessages();
+      points.forEach((msg) => addMarkerToMap(msg, mapRef.current!));
 
-      points.forEach(([lat, lng, message, emoji, _id, upvotes]) => {
-        // Main marker container
-        const el = document.createElement("div");
-        el.className = "custom-map-marker inline-block";
-
-        el.style.opacity = "0";
-        el.style.transition = "opacity 2s ease-in-out";
-        setTimeout(() => {
-          el.style.opacity = "1";
-        }, 100);
-
-        // Relative wrapper for icon + message
-        const wrapper = document.createElement("div");
-        wrapper.className = "relative flex items-center";
-
-        // Message (hidden by default, appears to the right)
-        const divContent = document.createElement("div");
-        divContent.className =
-          "absolute left-full text-neutral-500 px-2 py-1 rounded-full text-sm hidden bg-white shadow";
-        divContent.style.transition = "opacity 0.1s ease-in-out";
-        const root = ReactDOM.createRoot(divContent);
-        root.render(
-          <UpVoteMessage message={message} voteCount={upvotes} id={_id} />
-        );
-
-        // Emoji circle
-        const iconContent = document.createElement("div");
-        iconContent.className =
-          "w-8 h-8 bg-white border rounded-full flex items-center justify-center cursor-pointer text-xl";
-        iconContent.innerText = emoji ? emoji : "";
-
-        // Append to wrapper
-        wrapper.appendChild(iconContent);
-        wrapper.appendChild(divContent);
-
-        // Append wrapper to marker
-        el.appendChild(wrapper);
-
-        // Add marker to map
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat([lng, lat])
-          .addTo(map);
-        markersRef.current.push(marker);
-
-        // Hover behavior
-        wrapper.addEventListener("mouseenter", () => {
-          divContent.classList.remove("hidden");
-          divContent.style.opacity = "1";
-        });
-
-        wrapper.addEventListener("mouseleave", () => {
-          divContent.style.opacity = "0";
-          setTimeout(() => divContent.classList.add("hidden"), 200);
-        });
+      // 🔹 Add socket listener AFTER map loads
+      socket.on("newMessage", (msg: Message) => {
+        console.log("📩 New message received:", msg);
+        addMarkerToMap(msg, mapRef.current!);
       });
     });
 
@@ -146,36 +134,27 @@ const MapComponent = () => {
       markersRef.current = [];
       map.remove();
       mapRef.current = null;
+      socket.off("newMessage");
     };
   }, []);
 
-  const getAllMessages = async () => {
+  const getAllMessages = async (): Promise<Message[]> => {
     try {
-      const response = await fetch("/api/messages", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
+      const response = await fetch("/api/messages");
       const { messages } = await response.json();
-      console.log(messages);
-
       return messages.map((msg: Message) => {
         const jitter = 0.00015;
-        const noisyLat = msg.location.lat + (Math.random() - 0.5) * jitter;
-        const noisyLng = msg.location.lng + (Math.random() - 0.5) * jitter;
-        return [
-          noisyLat,
-          noisyLng,
-          msg.message,
-          msg.emoji,
-          msg._id,
-          msg.upvotes,
-        ];
+        return {
+          ...msg,
+          location: {
+            lat: msg.location.lat + (Math.random() - 0.5) * jitter,
+            lng: msg.location.lng + (Math.random() - 0.5) * jitter,
+          },
+        };
       });
     } catch {
       console.log("Error fetching messages");
+      return [];
     }
   };
 
