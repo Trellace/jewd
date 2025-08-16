@@ -4,13 +4,13 @@ import { connectDB } from '@/lib/mongodb';
 import { Message } from '@/lib/models/Message';
 import { NextRequest, NextResponse } from 'next/server';
 
-// /api/messages/[id]/route.ts
+// /api/messages/[id]
 export async function POST(req: NextRequest, context: { params: { id: string } }) {
   try {
     await connectDB();
 
-    const { action } = await req.json(); // "up" or "down"
-    const { id } = context.params;
+    const { action } = await req.json();
+    const id = context.params.id; // ✅ use context.params
 
     if (!["up", "down"].includes(action)) {
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
