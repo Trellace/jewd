@@ -5,12 +5,13 @@ import { Message } from '@/lib/models/Message';
 import { NextRequest, NextResponse } from 'next/server';
 
 // /api/messages/[id]
-export async function POST(req: NextRequest, context: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params } : { params: Promise<{ id: string }> }) {
   try {
     await connectDB();
 
     const { action } = await req.json();
-    const id = await context.params.id;
+    
+    const {id} = await params;
 
     if (!["up", "down"].includes(action)) {
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
