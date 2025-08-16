@@ -2,7 +2,7 @@
 
 import { connectDB } from '@/lib/mongodb';
 import { Message } from '@/lib/models/Message';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {

@@ -4,12 +4,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@/contexts/userContext";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
-
-import {
-  EmojiPicker,
-  EmojiPickerSearch,
-  EmojiPickerContent,
-} from "@/components/ui/emoji-picker";
+import Image from "next/image";
 
 const EMOJIS = [
   "😄","🤖","🐨","🐯","🐶","🐱","🐧","🐸","🐵","🦊","🐼","🐻","🐷","🐮","🐔","🐙","👾","🧠","🌏","🚀","💬"
@@ -92,8 +87,9 @@ export const Header = () => {
     <>
       <div className="absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
         <div className="flex flex-row items-center gap-2">
-          <div className="logo w-full h-full">
-            <img src="https://i.imgur.com/ZTYTSRw.png" alt="DOXXED LOGO" />
+          <div className="logo w-full h-full text-4xl text-purple-500 font-bold">
+            {/* <Image src="https://i.imgur.com/ZTYTSRw.png" height={100} width={300} alt="DOXXED LOGO" /> */}
+            DOXXED
           </div>
           <h1 className="text-md font-semibold text-neutral-600">{messageCount} messages</h1>
         </div>
