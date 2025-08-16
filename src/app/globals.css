@@ -77,7 +77,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --color-accent-a0: oklch(0.625 0.291 308.34); /* #c800f0 */
+  --color-accent-a0: oklab(61.717% 0.18324 -0.21598); /* #c800f0 */
   --color-accent-a10: oklch(0.748 0.236 308.12); /* #d13ff2 */
   --color-accent-a20: oklch(0.818 0.195 308.24); /* #d95ef5 */
   --color-accent-a30: oklch(0.867 0.161 308.19); /* #e178f7 */
@@ -140,6 +140,11 @@
   background-size: cover;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.logo {
+  max-width: 200px;
+  height: auto;
 }
 
 /* Deep space behind the canvas only (not the map layers) */

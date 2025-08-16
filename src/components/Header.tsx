@@ -83,7 +83,12 @@ export const Header = () => {
   return (
     <>
       <div className="absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
-        <h1 className="text-xl font-semibold text-neutral-600">{messageCount} messages</h1>
+        <div className="flex flex-col items-center gap-2">
+          <div className="logo w-full h-full">
+          <img src="https://i.imgur.com/ZTYTSRw.png" alt="DOXXED LOGO" />
+        </div>
+        <h1 className="text-xl font-semibold text-neutral-600">Total Messages: {messageCount}</h1>
+        </div>
 
         <div className="flex items-center gap-3">
           <div
