@@ -36,11 +36,7 @@ export const MessagePanel = () => {
 
         if (user && setUser) {
           setUser({ ...user, location: newLocation });
-        }
-        
-
-        // nav/move map to users location on map
-        
+        }       
 
         setError(null);
       },
@@ -98,14 +94,23 @@ export const MessagePanel = () => {
         {!loading ? <ArrowRight size={30} /> : <LoaderCircle className="animate-spin text-white"/>}
       </Button>
 
-      {/* <Button
+      <Button
         variant={"ghost"}
         aria-label="Recenter Location"
-        onClick={getUserLocation}
+        onClick={() => {
+                  // toggle if no detail provided
+                  window.dispatchEvent(
+                    new CustomEvent("doxxed:recenterMap", {
+                      detail: { coordinates: [location?.lng, location?.lat] } // [lng, lat]
+                    })
+                  );
+
+                }}
         className="ml-2 p-2 hover:scale-110 text-neutral-400 duration-200 transition-all cursor-pointer"
       >
         <MapPin size={30} />
-      </Button> */}
+      </Button>
+      
       <div className="absolute top-16 w-full justify-center flex">
         {error ? <h3 className="text-sm text-red-500">{error}</h3> : <h3 className="text-sm text-neutral-500">Reload page to see updates</h3>}
       </div>
