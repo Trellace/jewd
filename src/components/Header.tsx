@@ -114,18 +114,16 @@ export const Header = () => {
 
           <div className="hidden sm:flex items-center gap-2">
             {/* Satellite toggle pill — sits on the LEFT */}
-            <button
-              type="button"
-              onClick={() => {
-                // toggle if no detail provided
-                window.dispatchEvent(new CustomEvent("doxxed:toggleSatellite"));
-              }}
-              className="select-none flex items-center rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10 hover:bg-white transition"
-              aria-label="Toggle satellite view"
-            >
+            <div className="select-none flex items-center rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
+              aria-label="Toggle satellite view">
               <span className="mr-1">🛰️</span>
-              <span>Satellite</span>
-            </button>
+              <Switch 
+              onClick={() => {
+                  // toggle if no detail provided
+                  window.dispatchEvent(new CustomEvent("doxxed:toggleSatellite"));
+                }}
+              />
+            </div>
 
             {/* Your existing location pill — sits on the RIGHT */}
             <div
