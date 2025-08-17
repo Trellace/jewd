@@ -139,7 +139,7 @@ export const Header = () => {
 
           <Popover onOpenChange={setIsOpen} open={isOpen}>
             <PopoverTrigger asChild>
-              <Button className="text-2xl w-10 h-10 rounded-full p-1 ring-black/10 ring-1 shadow-sm border hover:bg-white/50 bg-white/80 hover:scale-105">{avatar}</Button>
+              <Button className="select-none text-2xl w-10 h-10 rounded-full p-1 ring-black/10 ring-1 shadow-sm border hover:bg-white/50 bg-white/80 hover:scale-105">{avatar}</Button>
             </PopoverTrigger>
             <PopoverContent className="w-fit p-0">
               <EmojiPicker
