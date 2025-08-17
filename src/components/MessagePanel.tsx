@@ -106,8 +106,9 @@ export const MessagePanel = () => {
       >
         <MapPin size={30} />
       </Button> */}
-
-      {error && <h3 className="absolute top-16 text-sm text-red-500">{error}</h3>}
+      <div className="absolute top-16 w-full justify-center flex">
+        {error ? <h3 className="text-sm text-red-500">{error}</h3> : <h3 className="text-sm text-neutral-500">Reload page to see updates</h3>}
+      </div>
     </div>
   );
 };
