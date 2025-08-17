@@ -98,7 +98,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
+      <div className="pointer-events-none absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
         <div className="flex flex-row items-center gap-2 -top-36">
           <div className="logo w-full font-bold h-12 overflow-hidden flex items-center">
             <span className="logo-ink" aria-label="DOXXED LOGO" />
@@ -114,7 +114,7 @@ export const Header = () => {
 
           <div className="hidden sm:flex items-center gap-2">
             {/* Satellite toggle pill — sits on the LEFT */}
-            <div className="select-none flex items-center rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
+            <div className="pointer-events-auto select-none flex items-center rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
               aria-label="Toggle satellite view">
               <span className="mr-1">🛰️</span>
               <Switch 
@@ -139,9 +139,9 @@ export const Header = () => {
 
           <Popover onOpenChange={setIsOpen} open={isOpen}>
             <PopoverTrigger asChild>
-              <Button className="select-none text-2xl w-10 h-10 rounded-full p-1 ring-black/10 ring-1 shadow-sm border hover:bg-white/50 bg-white/80 hover:scale-105">{avatar}</Button>
+              <Button className="pointer-events-auto select-none text-2xl w-10 h-10 rounded-full p-1 ring-black/10 ring-1 shadow-sm border hover:bg-white/50 bg-white/80 hover:scale-105">{avatar}</Button>
             </PopoverTrigger>
-            <PopoverContent className="w-fit p-0">
+            <PopoverContent className="pointer-events-auto w-fit p-0">
               <EmojiPicker
                 className="h-[342px]"
                 onEmojiSelect={({ emoji }) => {
