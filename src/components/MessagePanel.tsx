@@ -79,7 +79,7 @@ export const MessagePanel = () => {
     <div className="absolute left-0 right-0 md:mx-auto sm:w-full sm:mx-2 md:w-1/2 bottom-10 flex items-center shadow-md bg-white border border-gray-200 rounded-3xl h-14 p-2">
       <div className="flex-1 flex flex-row justify-center items-center">
         <Input
-          placeholder="Type a message..."
+          placeholder="Dox a message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className="w-full border-none focus:ring-0 focus:outline-none shadow-none hover:bg-neutral-100"
