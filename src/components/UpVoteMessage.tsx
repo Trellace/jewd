@@ -35,18 +35,18 @@ const UpVoteMessage: React.FC<UpVoteMessageProps> = ({ message, voteCount, id })
   }
   
   return (
-    <div className="flex flex-row gap-1 w-max items-center cursor-default">
-        <button onClick={() => handleVote(id, "up")} className="bg-white cursor-pointer text-neutral-500 rounded-full hover:text-green-600 hover:scale-110 duration-150">
+    <div className="bg-white rounded-full flex flex-row gap-1 w-max items-center cursor-default">
+        <button onClick={() => handleVote(id, "up")} className="cursor-pointer ml-2 text-neutral-500 rounded-full hover:text-green-600 hover:scale-110 duration-150">
             <TbArrowBigUpFilled />
         </button>
 
         <p className={`text-lg mx-1 ${upvotes != 0 ? upvotes > 0 ? 'text-green-600' : 'text-red-500' : ''}`}> {upvotes}</p>
 
-        <button onClick={() => handleVote(id, "down")} className="bg-white cursor-pointer text-neutral-500rounded-full hover:text-red-500 hover:scale-110 transition-all duration-150">
+        <button onClick={() => handleVote(id, "down")} className="cursor-pointer text-neutral-500rounded-full hover:text-red-500 hover:scale-110 transition-all duration-150">
             <TbArrowBigDownFilled />
         </button>
       
-        <div className="bg-white text-neutral-500 px-3 py-2 text-sm">
+        <div className="text-neutral-500 px-3 py-2 text-sm">
             <p>{message}</p>
         </div>
     </div>

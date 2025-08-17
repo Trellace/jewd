@@ -130,8 +130,8 @@ const MapComponent = () => {
       container: ref.current,
       style: "mapbox://styles/mapbox/light-v11",
       projection: "globe",
-      center: [112, -44],
-      zoom: 1.1,
+      center: [133.7751, -28.2744],
+      zoom: 3.5,
       antialias: true,
       maxZoom: 20,
     });
