@@ -112,14 +112,31 @@ export const Header = () => {
               <Label htmlFor="collapse" className="text-neutral-800">Collapse messages</Label>
           </div> */}
 
-          <div
-            className="hidden select-none sm:flex items-center max-w-[50vw] rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
-            aria-live="polite"
-          >
-            <span className="mr-1">📍</span>
-            <span className="truncate">
-              {locationLabel ? locationLabel : "Locating..."}
-            </span>
+          <div className="hidden sm:flex items-center gap-2">
+            {/* Satellite toggle pill — sits on the LEFT */}
+            <button
+              type="button"
+              onClick={() => {
+                // toggle if no detail provided
+                window.dispatchEvent(new CustomEvent("doxxed:toggleSatellite"));
+              }}
+              className="select-none flex items-center rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10 hover:bg-white transition"
+              aria-label="Toggle satellite view"
+            >
+              <span className="mr-1">🛰️</span>
+              <span>Satellite</span>
+            </button>
+
+            {/* Your existing location pill — sits on the RIGHT */}
+            <div
+              className="select-none flex items-center max-w-[50vw] rounded-full bg-white/80 backdrop-blur px-3 py-1.5 text-sm text-neutral-700 shadow ring-1 ring-black/10"
+              aria-live="polite"
+            >
+              <span className="mr-1">📍</span>
+              <span className="truncate">
+                {locationLabel ? locationLabel : "Locating..."}
+              </span>
+            </div>
           </div>
 
           <Popover onOpenChange={setIsOpen} open={isOpen}>
