@@ -98,7 +98,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="absolute top-0 p-4 px-6 justify-between pointer-events-none items-center w-full z-10 flex flex-row">
+      <div className="absolute top-0 p-4 px-6 justify-between items-center w-full z-10 flex flex-row">
         <div className="flex flex-row items-center gap-2 -top-36">
           <div className="logo w-full font-bold h-12 overflow-hidden flex items-center">
             <span className="logo-ink" aria-label="DOXXED LOGO" />
