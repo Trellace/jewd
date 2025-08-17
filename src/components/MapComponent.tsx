@@ -84,7 +84,7 @@ const MapComponent = () => {
         console.log("Recentering map to:", ev.detail.coordinates);
         mapRef.current.flyTo({
           center: ev.detail.coordinates, // [lng, lat]
-          zoom: 8,
+          zoom: 15,
           speed: 1.2,
           curve: 1.4,
           essential: true                // respects prefers-reduced-motion
