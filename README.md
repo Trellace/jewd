@@ -8,9 +8,31 @@ By choosing an emoji avatar, anyone can instantly post a note that appears at th
 
 ## Features
 
+<table>
+  <tr>
+    <td align="center" width="300">
+      <sub><b>Emoji avatar system</b></sub><br/>
+      <img src="https://github.com/user-attachments/assets/e291c86b-9f21-499b-a6ee-0e968175a8ef" width="300" height="300"/>
+    </td>
+    <td align="center" width="300">
+      <sub><b>Satellite switch</b></sub><br/>
+      <img src="https://github.com/user-attachments/assets/aae5bf1e-9070-4c5b-8453-7eb0e95ddfa5" width="300" height="300"/>
+    </td>
+    <td align="center" width="300">
+      <sub><b>Recentre to your "Doxxed" Position</b></sub><br/>
+      <img src="https://github.com/user-attachments/assets/3e224d97-65af-4187-a3e7-fa28faf48e93" width="300" height="300"/>
+    </td>
+  </tr>
+</table>
 
 
-<img src="https://github.com/user-attachments/assets/97119943-f245-4c51-b25b-fe48b8fd060a" width="250" height="250"/>
+
+
+
+
+
+
+
 
 
 
@@ -56,16 +78,15 @@ Create a .env file in both frontend/ and backend/ directories:
 NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token
 
 # MongoDB
-MONGODB_URI=your_mongo_uri
+NEXT_PUBLIC_MONGODB_URI=your_mongo_uri
 ```
 ---
 
 ## Usage
 - **Start** frontend (npm run dev in /frontend)
-- **Start** backend (npm run dev in /backend)
 - **Open** http://localhost:3000
 - **Select** an emoji avatar
-- **Create a post** → it appears on the globe at your city location
+- **Create a message** → it appears on the globe at your city location
 
 ---
 
