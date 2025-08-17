@@ -1,10 +1,8 @@
 # Doxxed 
 
-**Doxxed makes local conversation visual.**  
+**Doxxed is a globe-based community bulletin board that makes local conversation simple and visual**
 
-Choose an emoji avatar, type your note, and it pops up where you are.
-
-It’s the fastest way to **ask, offer, and share** — authentic, real, unfiltered, and grounded in place.
+By choosing an emoji avatar, anyone can instantly post a note that appears at their location. Whether it’s asking for help, offering something useful, or sharing a quick update, posts are authentic, time-sensitive, and grounded in place. With ephemeral notes that auto-expire, Doxxed keeps the feed fresh, relevant, and focused on what’s happening nearby—fast, lightweight, and real.
 
 ---
 
@@ -16,10 +14,10 @@ It’s the fastest way to **ask, offer, and share** — authentic, real, unfilte
 
 
 
--  **Globe UI** – Spin and zoom to see activity by place (powered by Mapbox).
--  **Emoji avatar system** – Pick your emoji identity with zero sign-up friction.
+-  **Globe UI** – Spin and zoom to see activity.
+-  **Emoji avatar system** – Pick your emoji identity.
 -  **Ephemeral posts** – Notes auto-expire, keeping the feed fresh and lightweight.
--  **Anonymous & private** – No personal info, just your emoji + city-level location.
+-  **Anonymous & private** – No personal info, just your emoji.
 
 ---
 
