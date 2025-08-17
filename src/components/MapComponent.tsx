@@ -19,6 +19,7 @@ type Message = {
 declare global {
   interface WindowEvente{
     "doxxed:toggleSatellite": CustomEvent<{ on?: boolean }>;
+    "doxxed:recenterMap": CustomEvent<{ on?: boolean }>
   }
 }
 const MapComponent = () => {
@@ -67,17 +68,38 @@ const MapComponent = () => {
   };
 
   // listen for header toggle events - satellite toggle
-useEffect(() => {
-  const handler = (e: Event) => {
-    const ev = e as CustomEvent<{ on?: boolean }>;
-    setSatellite(prev =>
-      typeof ev.detail?.on === "boolean" ? ev.detail.on : !prev
-    );
-  };
+  useEffect(() => {
+    // satellite toggle handler
+    const handleToggleSatellite = (e: Event) => {
+      const ev = e as CustomEvent<{ on?: boolean }>;
+      setSatellite(prev =>
+        typeof ev.detail?.on === "boolean" ? ev.detail.on : !prev
+      );
+    };
 
-  window.addEventListener("doxxed:toggleSatellite", handler);
-  return () => window.removeEventListener("doxxed:toggleSatellite", handler);
-}, []);
+    // recenter map handler
+    const handleRecenterMap = (e: Event) => {
+      const ev = e as CustomEvent<{ coordinates: [number, number] }>;
+      if (ev.detail?.coordinates && mapRef.current) {
+        console.log("Recentering map to:", ev.detail.coordinates);
+        mapRef.current.flyTo({
+          center: ev.detail.coordinates, // [lng, lat]
+          zoom: 8,                       // pick a zoom level you want
+          speed: 1.2,                    // fly animation speed
+          curve: 1.4,                    // how much it "curves"
+          essential: true                // respects prefers-reduced-motion
+        });
+      }
+    };
+
+    window.addEventListener("doxxed:toggleSatellite", handleToggleSatellite);
+    window.addEventListener("doxxed:recenterMap", handleRecenterMap);
+
+    return () => {
+      window.removeEventListener("doxxed:toggleSatellite", handleToggleSatellite);
+      window.removeEventListener("doxxed:recenterMap", handleRecenterMap);
+    };
+  }, []);
 
 
   const applySpace = (map: mapboxgl.Map) => {
