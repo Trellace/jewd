@@ -12,15 +12,15 @@ By choosing an emoji avatar, anyone can instantly post a note that appears at th
   <tr>
     <td align="center" width="300">
       <sub><b>Emoji avatar system</b></sub><br/>
-      <img src="https://github.com/user-attachments/assets/e291c86b-9f21-499b-a6ee-0e968175a8ef" width="300" height="300"/>
+      <img src="https://github.com/user-attachments/assets/e291c86b-9f21-499b-a6ee-0e968175a8ef" width="250" height="250"/>
     </td>
     <td align="center" width="300">
       <sub><b>Satellite switch</b></sub><br/>
-      <img src="https://github.com/user-attachments/assets/aae5bf1e-9070-4c5b-8453-7eb0e95ddfa5" width="300" height="300"/>
+      <img src="https://github.com/user-attachments/assets/aae5bf1e-9070-4c5b-8453-7eb0e95ddfa5" width="250" height="250"/>
     </td>
     <td align="center" width="300">
       <sub><b>Recentre to your "Doxxed" Position</b></sub><br/>
-      <img src="https://github.com/user-attachments/assets/3e224d97-65af-4187-a3e7-fa28faf48e93" width="300" height="300"/>
+      <img src="https://github.com/user-attachments/assets/3e224d97-65af-4187-a3e7-fa28faf48e93" width="250" height="250"/>
     </td>
   </tr>
 </table>
