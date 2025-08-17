@@ -30,17 +30,17 @@ const MapComponent = () => {
   const addMarkerToMap = (msg: Message, map: mapboxgl.Map) => {
     const { lat, lng } = msg.location;
     const el = document.createElement("div");
-    el.className = "custom-map-marker inline-block";
+    el.className = "custom-map-marker inline-block overflow-visible";
     el.style.opacity = "0";
-    el.style.transition = "opacity 2s ease-in-out";
+    el.style.transition = "opacity 0.5s ease-in-out";
     setTimeout(() => (el.style.opacity = "1"), 50);
 
     const wrapper = document.createElement("div");
-    wrapper.className = "relative flex items-center";
+    wrapper.className = "relative flex items-center overflow-visible cursor-pointer";
 
     const divContent = document.createElement("div");
     divContent.className =
-      "absolute left-full text-neutral-500 rounded-full z-[9999] text-sm hidden bg-white shadow pointer-events-auto";
+      "absolute text-neutral-500 rounded-full z-[9999] text-sm hidden bg-white shadow pointer-events-auto";
     const root = ReactDOM.createRoot(divContent);
     root.render(
       <UpVoteMessage message={msg.message} voteCount={msg.upvotes} id={msg._id} />
@@ -66,7 +66,7 @@ const MapComponent = () => {
     });
   };
 
-  // listen for header toggle events
+  // listen for header toggle events - satellite toggle
 useEffect(() => {
   const handler = (e: Event) => {
     const ev = e as CustomEvent<{ on?: boolean }>;
